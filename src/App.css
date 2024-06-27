@@ -15,6 +15,7 @@ body {
 
   display: flex;
   justify-content: center;
+  align-items: center;
   background-color: #e5e5f7;
   background-image: radial-gradient(#444cf7 1.25px, #e5e5f7 1.25px);
   background-size: 20px 20px;

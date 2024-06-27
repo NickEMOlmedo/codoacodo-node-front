@@ -1,4 +1,9 @@
+import React from 'react';
 import styled from 'styled-components';
+import iconoempleado from '../assets/img/icono-empleado.png'
+import iconodepartamento from '../assets/img/icono-departamento.png'
+import iconoproyectos from '../assets/img/icono-proyecto.png'
+import iconoasignaciones from '../assets/img/icono-asignacion.png'
 import logosalida from '../assets/img/salida.png'
 
 const NavBar = () => {
@@ -6,10 +11,10 @@ const NavBar = () => {
     <NavBarComponent className='navbar'>
       <LinkHover className='logoNavbar'><h2>SGE</h2></LinkHover>
       <ul>
-        <li><LinkHover href='#'>Empleados</LinkHover></li>
-        <li><LinkHover href='#'>Departamentos</LinkHover></li>
-        <li><LinkHover href='#'>Proyectos</LinkHover></li>
-        <li><LinkHover href='#'>Asignaciones</LinkHover></li>
+        <img src={iconoempleado} className='img-links'></img><li><LinkHover href='#'>Empleados</LinkHover></li>
+        <img src={iconodepartamento} className='img-links'></img><li><LinkHover href='#'>Departamentos</LinkHover></li>
+        <img src={iconoproyectos} className='img-links'></img><li><LinkHover href='#'>Proyectos</LinkHover></li>
+        <img src={iconoasignaciones} className='img-links'></img><li><LinkHover href='#'>Asignaciones</LinkHover></li>
       </ul>
       <LinkHover href='#' className='logout'><img src={logosalida} /><h3>Exit</h3></LinkHover>
     </NavBarComponent>
@@ -19,7 +24,7 @@ const NavBar = () => {
 const NavBarComponent = styled.nav`
 
   display: flex;
-  margin: 1rem 0 1rem 1rem;
+  margin: 2rem 0 3rem 0;
   justify-content:center;
   align-items:center;
   border-radius: 5px;
@@ -30,7 +35,6 @@ const NavBarComponent = styled.nav`
 
   display: flex;
   margin: 0 1rem 0 1rem;
-  margin-left: 1rem;
   text-decoration: none;
   color: #4d4646;
   
@@ -56,10 +60,18 @@ li {
   .logout {
 
   display: flex;
-  margin: -0.1rem 1rem 0 ;
+  margin-right: 1rem;
   align-items: center;
   justify-content: center;
   text-decoration: none;
+
+  }
+
+  .img-links{
+
+ display: inline-flex;
+ width: 25px;
+margin-right: 5px;
 
   }
 
@@ -103,10 +115,6 @@ const LinkHover = styled.a`
     color:  #444cf7;
   }
 
-
-  
 `;
-
-
 
 export default NavBar;

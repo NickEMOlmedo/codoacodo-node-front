@@ -1,6 +1,8 @@
 import "./App.css";
 import NavBar from './components/Navbar'
-import { Home } from "./screens/Home";
+import AddEmpleado from "./screens/ScreensEmpleados/AddEmpleado";
+
+
 
 
 
@@ -10,8 +12,7 @@ function App() {
   return <div>
 
     <NavBar/>
-    <Home/>
-  
+<AddEmpleado/>
 
   </div>
 
