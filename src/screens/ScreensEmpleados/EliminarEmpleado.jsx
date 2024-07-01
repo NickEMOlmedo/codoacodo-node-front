@@ -1,50 +1,100 @@
 import styled from "styled-components";
 import { useState } from "react";
+import SearchBar from "../../components/SearchBar";
+import MostrarEmpleado from "../../components/MostrarEmpleado"
+import alertQuestion from "../../components/alertQuestion"
+import axios from "axios";
+import alertSuccess from "../../components/alertSuccess";
+import alertError from "../../components/alertError";
 
 
 const EliminarEmpleado = () => {
-    return (
-        <EliminarEmpleadoComponent>
-            <form className="empleadoForm">
-                <h2 className="formTittle">Eliminar Empleado:</h2>
-                <p className="formParagraph">Porfavor ingresa el nombre del empleado:</p>
-                <div className="formContainer">
-                    <div className="formGroup">
-                        <input
-                            type="text"
-                            id="empleado"
-                            className="formInput"
-                            placeholder=" "
-                            onChange={(event) => {
-                                setNombre(event.target.value)
-                            }}
-                        />
-                        <label htmlFor="name" className="formLabel">
-                            Empleado:
-                        </label>
-                        <span className="formLine"></span>
-                    </div>
-                    <div className="formGroup">
-                        <input
-                            type="text"
-                            id="proyecto"
-                            className="formInput"
-                            placeholder=" "
-                            onChange={(event) => {
-                                setProyecto(event.target.value)
-                            }}
-                        />
-                        <label htmlFor="nombre" className="formLabel">
-                            Proyecto:
-                        </label>
-                        <span className="formLine"></span>
-                    </div>
-                   
-                    <input type="submit" className="formSubmit" value="Eliminar Empleado" />
-                </div>
-            </form>
-        </EliminarEmpleadoComponent>
-    )
+
+  const [selectNombre, setSelectNombre] = useState("");
+
+  const handleNombre = (nombre) => {
+
+    setSelectNombre(nombre);
+  };
+
+  const realizarBusqueda = async () => {
+
+    const URLBUSQUEDA = ''; // URL para buscar el empleado
+
+    const URLELIMINAR = ''; // URL para eliminar el empleado
+
+    try {
+      
+      const response = await axios.get(URLBUSQUEDA, {
+
+        params: { search: selectNombre },
+
+      });
+
+      const { dni } = response.data;
+
+      if (response.status === 200 && response.data.status === 'success') {
+
+        const deleteEmpleado = await axios.post(URLELIMINAR, dni);
+
+        if (deleteEmpleado.status === 200) {
+
+          alertSuccess();
+
+        } else {
+
+          alertError();
+        }
+      } else {
+
+        console.error('Error en la búsqueda:', response.data.message);
+
+      }
+    } catch (error) {
+
+      console.error('Error en la búsqueda:', error);
+
+    }
+  };
+
+  const confirmarEliminar = () => {
+
+    if (selectNombre) {
+
+      alertQuestion({
+
+        elemento: "Empleado",
+
+        titulo: selectNombre.nombre,
+
+        esConfirmado: realizarBusqueda, 
+
+      });
+
+    } else {
+
+      console.error("No se ha seleccionado ningún empleado para eliminar.");
+    }
+  };
+
+  return (
+    <EliminarEmpleadoComponent>
+      <form className="empleadoForm">
+        <h2 className="formTittle">Eliminar Empleado:</h2>
+        <p className="formParagraph">Porfavor ingresa el nombre del empleado:</p>
+        <div className="formContainer">
+          <div className="formGroup">
+
+            <SearchBar handleNombre={handleNombre} />
+
+            {selectNombre && <MostrarEmpleado empleado={selectNombre} />}
+
+          </div>
+          <input type="submit" className="formSubmit" value="Eliminar Empleado" onClick={confirmarEliminar} />
+        </div>
+      </form>
+    </EliminarEmpleadoComponent>
+  )
 }
 
 const EliminarEmpleadoComponent = styled.form`
@@ -79,18 +129,25 @@ const EliminarEmpleadoComponent = styled.form`
   --color: #5757577e;
 }
 
+.formSubmit {
+  background-color: #3866f2;
+  color: #ffffff;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  padding: 0.8em;
+  border: none;
+  border-radius: 0.5em;
+}
+
+
 
 .formLabel {
   color: var(--color);
   cursor: pointer;
-  position: absolute;
-  top: 0;
-  left: 5px;
   transform: translateY(10px);
   transition: transform 0.5s color 0.3s;
 }
-
-
 
 @media (max-width: 768px) {
 

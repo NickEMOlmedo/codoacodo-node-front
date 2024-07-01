@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 
 
 const MostrarEmpleado = (empleado) => {
-    
+
+  
     const {nombre,apellido,dni,fecha_contratacion,salario,departamento,pais,cargo} = empleado;
 
     return (

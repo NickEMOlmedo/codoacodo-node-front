@@ -1,76 +1,107 @@
-import styled from "styled-components";
-import { useState } from "react";
-const DepartamentoForm = () => {
+import styled from 'styled-components'
+import { useState } from 'react'
+import axios from 'axios';
+import PropTypes from 'prop-types';
 
-  {/*}
-  const [nombre,setNombre] = useState;
-  const [ubicacion, setUbicacion] = useState;
+const SearchBar = ({ handleNombre }) => {
 
-*/}
+  const [nombres, setNombres] = useState([]);
+  const [value, setValue] = useState('');
+
+  const setValor = (event) => {
+
+    setValue(event.target.value);
+
+  }
+
+  const realizarBusqueda = async () => {
+
+    const URL = '';
+
+    try {
+
+      const response = await axios.get(URL, {
+
+        params: { search: value }
+
+      });
+
+    
+
+      if (response.status === 201 && response.data.status === 'success') {
+
+        setNombres(response.data.nombre);
+
+      } else {
+
+        setNombres([]);
+
+        console.error('Error en la búsqueda:', response.data.message);
+      }
+
+    } catch (error) {
+
+      console.error('Error en la búsqueda:', error);
+
+    }
+  };
+
+  const handleNombreClick = (nombre) => {
+
+    handleNombre(nombre);
+
+  };
 
   return (
-    <DepartamentoFormComponent>
-      <form className="empleadoForm">
-        <h2 className="formTittle">Cargar Departamento:</h2>
-        <p className="formParagraph">Porfavor ingresa un nuevo Departamento:</p>
+    <SearchBarComponent>
+      <form className="empleadoForm " onSubmit={(e) => e.preventDefault()}>
         <div className="formContainer">
           <div className="formGroup">
             <input
               type="text"
-              id="nombre"
               className="formInput"
               placeholder=" "
-              onChange={(event) => {
-                setNombre(event.target.value)
-              }}
+              onChange={setValor}
             />
             <label htmlFor="name" className="formLabel">
               Nombre:
             </label>
             <span className="formLine"></span>
           </div>
-          <div className="formGroup">
-            <input
-              type="text"
-              id="ubicacion"
-              className="formInput"
-              placeholder=" "
-              onChange={(event) => {
-                setUbicacion(event.target.value)
-              }}
-            />
-            <label htmlFor="nombre" className="formLabel">
-              Ubicacion:
-            </label>
-            <span className="formLine"></span>
-          </div>
-          <input type="submit" className="formSubmit" value="Cargar Departamento" />
+          <input type="submit" className="formSubmit" value="Buscar" onClick={realizarBusqueda}/>
+          <ul>
+            {nombres.map((nombre) => (
+              <li key={nombre.id} onClick={() => handleNombreClick(nombre)}>
+                {nombre.name}
+              </li>
+            ))}
+          </ul>
         </div>
       </form>
-    </DepartamentoFormComponent>
+    </SearchBarComponent>
   )
 }
 
-const DepartamentoFormComponent = styled.form`
+SearchBar.propTypes = {
 
+  handleNombre: PropTypes.func.isRequired,
+
+}
+
+const SearchBarComponent = styled.form`
+
+  
   background-color: #ffffff;
   width: 90%;
   margin: 0 auto;
+  margin-bottom: 3rem;
   max-width: 400px;
   text-align: center;
-  padding: 4.5rem 3rem;
+  padding: 1rem 3rem 2.5rem;
   border-radius: 10px;
+  border: solid 1px  #5757577e;
   box-shadow: 0 5px 10px -5px rgb(0 0 0 / 100%);
 
-
-  .formTittle {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.formParagraph {
-  font-weight: 300;
-}
 
 .formContainer {
   margin-top: 3rem;
@@ -123,17 +154,6 @@ const DepartamentoFormComponent = styled.form`
   border-radius: 0.5em;
 }
 
-.formLine {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background-color: #3866f2;
-  transform: scale(0);
-  transform: left bottom;
-  transition: transform 0.4s;
-}
 
 .formInput:focus ~ .formLine,
 .formInput:not(:placeholder-shown) ~ .formLine {
@@ -154,7 +174,8 @@ margin-bottom: 2rem;
   }
 }
 
+
 `;
 
 
-export default DepartamentoForm;
+export default SearchBar;

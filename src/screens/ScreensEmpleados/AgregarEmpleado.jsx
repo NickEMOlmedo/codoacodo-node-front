@@ -1,17 +1,54 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import paisesJSON from '/src/paises.json'
+import axios from "axios";
+import alertError from '/src/components/alertError'
+import alertSuccess from '/src/components/alertSuccess'
+import PropTypes from 'prop-types'
 
-const cargarData = (data) => {
 
-  console.log(data)
-
-
-}
-
-const AddEmpleado = () => {
+const AgregarEmpleado = () => {
 
   const { register, formState: { errors }, handleSubmit } = useForm();
+
+  const cargarData = async (data) => {
+
+    try {
+
+      const empleado = {
+
+        nombre: data.nombre,
+        apellido: data.apellido,
+        dni: data.dni,
+        fecha_contratacion: data.fecha_contratacion,
+        salario: data.salario,
+        departamento: data.departamento,
+        pais: data.pais,
+        cargo: data.cargo,
+
+      }
+
+      const url = '';
+
+      const response = await axios.post(url, empleado, {
+
+        headers: { 'Content-Type': 'application/json' }
+
+      })
+
+      if (response.status === 201) {
+
+        alertSuccess();
+
+      }
+
+    } catch (error) {
+
+      alertError(error);
+
+    }
+
+  }
 
   return (
     <EmpleadoFormComponent>
@@ -58,22 +95,47 @@ const AddEmpleado = () => {
           <div className="formGroup">
             <input
               type="number"
-              id="edad"
-              min="18"
-              max="99"
+              inputMode="numeric"
+              id="dni"
               className="formInput"
               placeholder=" "
-              {...register("edad", { required: "La edad es obligatoria", min: { value: 18, max: { value: 99 }, validate: { positive: value => parseInt(value, 10) > 18 || "La edad debe ser mayor a 18" } } })}
-            />
-            {errors.edad && <p className="errorsMessage">{errors.edad.message}</p>}
-            <label htmlFor="name" className="formLabel">
-              Edad:
+              {...register("dni", { required: "El dni es obligatori0", min: { value: 1, message: "El dni debe ser mayo a 1 digito" }, max: { value: 20, message: "El dni debe ser menor a 20 digitos" }, validate: { positive: value => parseInt(value, 10) > 1 || "El dni debe ser mayor a 1" } })} />
+
+            {errors.dni && <p className="errorsMessage">{errors.dni.message}</p>}
+            <label htmlFor="dni" className="formLabel">
+              DNI:
             </label>
             <span className="formLine"></span>
           </div>
           <div className="formGroup">
             <select name="country" className="formInput" {...register("pais", { required: "Debe seleccionar un pais" })}>
               <option value="">Seleccione un país:</option>
+              {paisesJSON.map((pais) => (
+                <option key={pais.value} value={pais.value}>
+                  {pais.label}
+                </option>
+              ))}
+            </select>
+            {errors.pais && <p className="errorsMessage">{errors.pais.message}</p>}
+            <div />
+            <span className="formLine"></span>
+          </div>
+          <div className="formGroup">
+            <input
+              type="date"
+              id="fecha_contratacion"
+              className="formInput"
+              placeholder=" "
+              {...register("fecha_contratacion", { required: "La fecha de contatacion es obligatoria" })} />
+            {errors.fecha_contratacion && <p className="errorsMessage">{errors.fecha_contratacion.message}</p>}
+            <label htmlFor="fecha_contratacion" className="formLabel">
+              Fecha de contratacion:
+            </label>
+            <span className="formLine"></span>
+          </div>
+          <div className="formGroup">
+            <select name="departamento" className="formInput" {...register("pais", { required: "Debe seleccionar un pais" })}>
+              <option value="">Seleccione un Departamento:</option>
               {paisesJSON.map((pais) => (
                 <option key={pais.value} value={pais.value}>
                   {pais.label}
@@ -105,31 +167,13 @@ const AddEmpleado = () => {
           <div className="formGroup">
             <input
               type="number"
-              id="antiguedad"
-              min="1"
-              max="99"
-              className="formInput"
-              placeholder=" "
-              {...register("antiguedad", { required: "La antiguedad es obligatoria", min: { value: 1, max: { value: 99 }, validate: { positive: value => parseInt(value, 10) > 1 || "La antiguedad debe ser mayor a 1" } } })}
-            />
-            {errors.antiguedad && <p className="errorsMessage">{errors.antiguedad.message}</p>}
-            <label htmlFor="antiguedad" className="formLabel">
-              Antiguedad:
-            </label>
-            <span className="formLine"></span>
-          </div>
-          <div className="formGroup">
-            <input
-              type="number"
               id="salario"
-              min="100"
-              max="9999999"
+              inputMode="numeric"
               className="formInput"
               placeholder=" "
-              {...register("salario", { required: "El salario es obligatorio", min: { value: 100, max: { value: 9999999 }, validate: { positive: value => parseInt(value, 10) > 100 || "El salario debe ser mayor a 100" } } })}
-            />
-            {errors.antiguedad && <p className="errorsMessage">{errors.antiguedad.message}</p>}
-            <label htmlFor="name" className="formLabel">
+              {...register("salario", { required: "El salario es obligatorio", min: { value: 100, message: "El minimo permitido es 100." }, max: { value: 9999999, message: "El maximo permitido es: 9999999 " }, validate: { positive: value => parseInt(value, 10) > 100 || "El salario debe ser mayor a 100" } })} />
+            {errors.salario && <p className="errorsMessage">{errors.salario.message}</p>}
+            <label htmlFor="salario" className="formLabel">
               Salario:
             </label>
             <span className="formLine"></span>
@@ -139,6 +183,14 @@ const AddEmpleado = () => {
       </form>
     </EmpleadoFormComponent>
   )
+}
+
+
+AgregarEmpleado.propTypes = {
+
+  valor: PropTypes.Object.isRequired,
+  url: PropTypes.string.isRequired,
+
 }
 
 const EmpleadoFormComponent = styled.form`
@@ -256,4 +308,4 @@ margin-bottom: 2rem;
 `;
 
 
-export default AddEmpleado;
+export default AgregarEmpleado;

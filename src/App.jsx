@@ -1,18 +1,28 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import NavBar from './components/Navbar'
-import AddEmpleado from "./screens/ScreensEmpleados/AddEmpleado";
-
-
-
-
+import Layout from './screens/Layout'
 
 
 function App() {
 
   return <div>
 
-    <NavBar/>
-<AddEmpleado/>
+<BrowserRouter>
+
+<Routes>
+
+<Route path="/" element={<Layout/>}/>
+
+
+
+</Routes>
+
+
+
+
+
+</BrowserRouter>
+
 
   </div>
 
@@ -21,22 +31,3 @@ function App() {
 export default App;
 
 
-
-
-{
-  /*
-     <Router>
-
-      <Routes>
-  
-
-        <Route path="./screens/Login.jsx" element={<login/>} />
-        <Route path="./screens/Empleados.jsx" element={<empleados />} />
-        <Route path="./screens/Asignaciones.jsx" element={<asignaciones />} />
-        <Route path="./screens/EmpleadoForm.jsx" element={<empleadoForm />} />
-        <Route path="./screens/Departamentos.jsx" element={<departamentos />} />
-
-      </Routes>
-
-    </Router>
-*/}

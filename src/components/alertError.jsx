@@ -1,12 +1,13 @@
 import Swal from "sweetalert2";
 
-const alertError = () => {
+const alertError = (error) => {
 
     Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "¡Has Introducido un nombre Incorrecto!",
-    })
+        text: "¡Ha ocurrido un error!",
+        footer: error.message,
+      });
 }
 
 export default alertError;

@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import iconoempleado from '../assets/img/icono-empleado.png'
 import iconodepartamento from '../assets/img/icono-departamento.png'
@@ -11,10 +11,10 @@ const NavBar = () => {
     <NavBarComponent className='navbar'>
       <LinkHover className='logoNavbar'><h2>SGE</h2></LinkHover>
       <ul>
-        <img src={iconoempleado} className='img-links'></img><li><LinkHover href='#'>Empleados</LinkHover></li>
-        <img src={iconodepartamento} className='img-links'></img><li><LinkHover href='#'>Departamentos</LinkHover></li>
-        <img src={iconoproyectos} className='img-links'></img><li><LinkHover href='#'>Proyectos</LinkHover></li>
-        <img src={iconoasignaciones} className='img-links'></img><li><LinkHover href='#'>Asignaciones</LinkHover></li>
+        <img src={iconoempleado} className='img-links'></img><li><LinkHover Link to='/empleados'>Empleados</LinkHover></li>
+        <img src={iconodepartamento} className='img-links'></img><li><LinkHover Link to='/departamentos'>Departamentos</LinkHover></li>
+        <img src={iconoproyectos} className='img-links'></img><li><LinkHover Link to='/proyectos'>Proyectos</LinkHover></li>
+        <img src={iconoasignaciones} className='img-links'></img><li><LinkHover link to='/asignaciones'>Asignaciones</LinkHover></li>
       </ul>
       <LinkHover href='#' className='logout'><img src={logosalida} /><h3>Exit</h3></LinkHover>
     </NavBarComponent>
