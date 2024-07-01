@@ -19,9 +19,9 @@ const EliminarEmpleado = () => {
 
   const realizarBusqueda = async () => {
 
-    const URLBUSQUEDA = ''; // URL para buscar el empleado
+    const URLBUSQUEDA = ''; 
 
-    const URLELIMINAR = ''; // URL para eliminar el empleado
+    const URLELIMINAR = ''; 
 
     try {
       

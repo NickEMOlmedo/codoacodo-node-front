@@ -1,6 +1,6 @@
-import React from 'react'
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 
 const Card = ({ image, text, link }) => {
@@ -8,7 +8,7 @@ const Card = ({ image, text, link }) => {
     return (
         <CardComponent>
             <p className='text'>{text}</p>
-            <div className='img-container'><a href={link}><img src={image} alt='' className='image' /></a></div>
+            <div className='img-container'><Link to={link}><img src={image} alt='' className='image' /></Link></div>
         </CardComponent>
     )
 }

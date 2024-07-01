@@ -4,30 +4,28 @@ import styled from 'styled-components'
 import { Outlet } from 'react-router-dom'
 
 
-const Layout = () => {
+const Dashboard = () => {
 
     return (
         <Container>
 
-            <NavBar />
+        <NavBar />
 
-            <Content>
+        <Content>
 
-                <Outlet />
+          <Outlet />
+          
+        </Content>
 
-            </Content>
+        <FooterStyle>
 
-            <FooterStyle>
+          <Footer />
 
-                <Footer />
-
-            </FooterStyle>
-
-        </Container>
+        </FooterStyle>
+        
+      </Container>
     )
 }
-
-export default Layout
 
 
 const Container = styled.div`
@@ -50,3 +48,5 @@ const FooterStyle = styled.footer`
   text-align: center;
 
 `;
+
+export default Dashboard

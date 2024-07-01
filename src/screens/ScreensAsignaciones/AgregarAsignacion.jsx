@@ -2,12 +2,6 @@ import styled from "styled-components";
 import { useState } from "react";
 
 
-{/*}
-  const [nombre,setNombre] = useState;
-  const [ubicacion, setUbicacion] = useState;
-  const [fecha_inicio, setFecha_inicio] = usestate;
-
-*/}
 
 const proyecto = 0;
 const empleado = 0;
@@ -15,7 +9,7 @@ const fechaAsignacion = 0;
 const  horasTrabajadas = 0;
 
 
-const AsignacionesForm = () => {
+const AgregarAsignacion = () => {
     return (
         <AsignacionesFormComponent>
             <form className="empleadoForm">
@@ -197,4 +191,4 @@ margin-bottom: 2rem;
 `;
 
 
-export default AsignacionesForm;
+export default AgregarASig;

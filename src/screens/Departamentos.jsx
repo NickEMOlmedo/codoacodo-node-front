@@ -11,16 +11,16 @@ const Departamentos = () => {
   return (
     <DepartamentosComponent>
       <CardContainer>
-        <Card image={iconoAgregar} text="Añadir Departamentos" link="" />
+        <Card image={iconoAgregar} text="Añadir Departamentos" link="/adddepartamento" />
       </CardContainer>
       <CardContainer>
-        <Card image={iconoActualizar} text="Actualizar Departamentos" link="" />
+        <Card image={iconoActualizar} text="Actualizar Departamentos" link="/updatedepartamento" />
       </CardContainer>
       <CardContainer>
-        <Card image={iconoBuscar} text="Buscar Departamentos" link="" />
+        <Card image={iconoBuscar} text="Listar Departamentos" link="" />
       </CardContainer>
       <CardContainer>
-        <Card image={iconoEliminar} text="Eliminar Departamentos" link="" />
+        <Card image={iconoEliminar} text="Eliminar Departamentos" link="/deletedepartamento" />
       </CardContainer>
       <CardContainer>
         <Card image={iconoVolver} text="Volver" link="" />

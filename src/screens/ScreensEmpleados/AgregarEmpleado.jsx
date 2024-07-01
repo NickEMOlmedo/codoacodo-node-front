@@ -188,7 +188,7 @@ const AgregarEmpleado = () => {
 
 AgregarEmpleado.propTypes = {
 
-  valor: PropTypes.Object.isRequired,
+  valor: PropTypes.Object,
   url: PropTypes.string.isRequired,
 
 }

@@ -1,30 +1,15 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Layout from './screens/Layout'
+import { Routers } from "./routes/Routers";
 
 
 function App() {
 
-  return <div>
+  return(  
 
-<BrowserRouter>
-
-<Routes>
-
-<Route path="/" element={<Layout/>}/>
-
-
-
-</Routes>
-
-
-
-
-
-</BrowserRouter>
-
-
-  </div>
+<Routers/>
+    
+  )
+  
 
 }
 

@@ -30,7 +30,7 @@ const ActualizarEmpleado = () => {
         cargo: data.cargo,
       };
 
-      const response = await axios.post('http://localhost:3000/addEmpleados', empleado, {
+      const response = await axios.put('http://localhost:3000/addEmpleados', empleado, {
 
         headers: { 'Content-Type': 'application/json' }
 
@@ -66,150 +66,153 @@ const ActualizarEmpleado = () => {
 
   return (
     <ActualizarEmpleadoComponent>
-      <form className="empleadoForm" onSubmit={handleSubmit(cargarData)}>
-        <h2 className="formTittle">Actualizar Empleado:</h2>
-        <p className="formParagraph">Por favor ingresa el nombre del empleado:</p>
-        <div className="formContainer">
-          <div className="formGroup">
-            <SearchBar handleNombre={handleNombre} />
+
+      <h2 className="formTittle">Cargar Empleado</h2>
+      <p className="formParagraph">Porfavor ingresa un nombre en la busqueda:</p>
+
+      <SearchBar handleNombre={handleNombre} />
 
 
-            {selectNombre && (
 
+      {selectNombre && (
 
-              <form className="empleadoForm" onSubmit={handleSubmit(cargarData)}>
-                <h2 className="formTittle">Cargar Empleado</h2>
-                <p className="formParagraph">Porfavor ingresa un nuevo empleado:</p>
-                <div className="formContainer">
-                  <div className="formGroup">
-                    <input
-                      type="text"
-                      id="nombre"
-                      className="formInput"
-                      placeholder=" "
-                      {...register("nombre", {
-                        required: "No ha ingresado ningun nombre", minLength: { value: 2, message: "El nombre debe tener al menos dos caracteres" }, maxLength: { value: 30, message: "El nombre no puede tener mas de 30 caracteres" }, pattern: {
-                          value: /^[A-Za-z\s]+$/i,
-                          message: "El nombre solo puede contener letras y espacios"
-                        }
-                      })} />
-                    {errors.nombre && <p className="errorsMessage">{errors.nombre.message}</p>}
-                    <label htmlFor="name" className="formLabel">
-                      Nombre:
-                    </label>
-                    <span className="formLine"></span>
-                  </div>
-                  <div className="formGroup">
-                    <input
-                      type="text"
-                      id="apellido"
-                      className="formInput"
-                      placeholder=" "
-                      {...register("apellido", {
-                        required: "No ha ingresado ningun apellido", minLength: { value: 2, message: "El apellido debe tener al menos dos caracteres" }, maxLength: { value: 30, message: "El apellido no puede tener mas de 30 caracteres" }, pattern: {
-                          value: /^[A-Za-z\s]+$/i,
-                          message: "El apellido solo puede contener letras y espacios"
-                        }
-                      })} />
-                    {errors.apellido && <p className="errorsMessage">{errors.apellido.message}</p>}
-                    <label htmlFor="apellido" className="formLabel">
-                      Apellido:
-                    </label>
-                    <span className="formLine"></span>
-                  </div>
-                  <div className="formGroup">
-                    <input
-                      type="number"
-                      inputMode="numeric"
-                      id="dni"
-                      className="formInput"
-                      placeholder=" "
-                      {...register("dni", { required: "El dni es obligatori0", min: { value: 1, message: "El dni debe ser mayo a 1 digito" }, max: { value: 20, message: "El dni debe ser menor a 20 digitos" }, validate: { positive: value => parseInt(value, 10) > 1 || "El dni debe ser mayor a 1" } })} />
+        
 
-                    {errors.dni && <p className="errorsMessage">{errors.dni.message}</p>}
-                    <label htmlFor="dni" className="formLabel">
-                      DNI:
-                    </label>
-                    <span className="formLine"></span>
-                  </div>
-                  <div className="formGroup">
-                    <select name="country" className="formInput" {...register("pais", { required: "Debe seleccionar un pais" })}>
-                      <option value="">Seleccione un país:</option>
-                      {paisesJSON.map((pais) => (
-                        <option key={pais.value} value={pais.value}>
-                          {pais.label}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.pais && <p className="errorsMessage">{errors.pais.message}</p>}
-                    <div />
-                    <span className="formLine"></span>
-                  </div>
-                  <div className="formGroup">
-                    <input
-                      type="date"
-                      id="fecha_contratacion"
-                      className="formInput"
-                      placeholder=" "
-                      {...register("fecha_contratacion", { required: "La fecha de contatacion es obligatoria" })} />
-                    {errors.fecha_contratacion && <p className="errorsMessage">{errors.fecha_contratacion.message}</p>}
-                    <label htmlFor="fecha_contratacion" className="formLabel">
-                      Fecha de contratacion:
-                    </label>
-                    <span className="formLine"></span>
-                  </div>
-                  <div className="formGroup">
-                    <select name="departamento" className="formInput" {...register("pais", { required: "Debe seleccionar un pais" })}>
-                      <option value="">Seleccione un Departamento:</option>
-                      {paisesJSON.map((pais) => (
-                        <option key={pais.value} value={pais.value}>
-                          {pais.label}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.pais && <p className="errorsMessage">{errors.pais.message}</p>}
-                    <div />
-                    <span className="formLine"></span>
-                  </div>
-                  <div className="formGroup">
-                    <input
-                      type="text"
-                      id="cargo"
-                      className="formInput"
-                      placeholder=" "
-                      {...register("cargo", {
-                        required: "No ha ingresado ningun cargo", minLength: { value: 2, message: "El cargo debe tener al menos dos caracteres" }, maxLength: { value: 30, message: "El cargo no puede tener mas de 30 caracteres" }, pattern: {
-                          value: /^[A-Za-z\s]+$/i,
-                          message: "El cargo solo puede contener letras y espacios"
-                        }
-                      })} />
-                    {errors.cargo && <p className="errorsMessage">{errors.cargo.message}</p>}
-                    <label htmlFor="cargo" className="formLabel">
-                      Cargo:
-                    </label>
-                    <span className="formLine"></span>
-                  </div>
-                  <div className="formGroup">
-                    <input
-                      type="number"
-                      id="salario"
-                      inputMode="numeric"
-                      className="formInput"
-                      placeholder=" "
-                      {...register("salario", { required: "El salario es obligatorio", min: { value: 100, message: "El minimo permitido es 100." }, max: { value: 9999999, message: "El maximo permitido es: 9999999 " }, validate: { positive: value => parseInt(value, 10) > 100 || "El salario debe ser mayor a 100" } })} />
-                    {errors.salario && <p className="errorsMessage">{errors.salario.message}</p>}
-                    <label htmlFor="salario" className="formLabel">
-                      Salario:
-                    </label>
-                    <span className="formLine"></span>
-                  </div>
-                  <input type="submit" className="formSubmit" value="Actualizar Empleado" onClick={question} />
-                </div>
-              </form>
-            )}
+        <form className="empleadoForm" onSubmit={handleSubmit(cargarData)}>
+          <h2 className="formTittle">Cargar Empleado</h2>
+          <p className="formParagraph">Porfavor ingresa un nuevo empleado:</p>
+          <div className="formContainer">
+            <div className="formGroup">
+              <input
+                type="text"
+                id="nombre"
+                className="formInput"
+                placeholder=" "
+                defaultValue={selectNombre.nombre}
+                {...register("nombre", {
+                  required: "No ha ingresado ningun nombre", minLength: { value: 2, message: "El nombre debe tener al menos dos caracteres" }, maxLength: { value: 30, message: "El nombre no puede tener mas de 30 caracteres" }, pattern: {
+                    value: /^[A-Za-z\s]+$/i,
+                    message: "El nombre solo puede contener letras y espacios"
+                  }
+                })} />
+              {errors.nombre && <p className="errorsMessage">{errors.nombre.message}</p>}
+              <label htmlFor="name" className="formLabel">
+                Nombre:
+              </label>
+              <span className="formLine"></span>
+            </div>
+            <div className="formGroup">
+              <input
+                type="text"
+                id="apellido"
+                className="formInput"
+                placeholder=" "
+                defaultValue={selectNombre.apellido}
+                {...register("apellido", {
+                  required: "No ha ingresado ningun apellido", minLength: { value: 2, message: "El apellido debe tener al menos dos caracteres" }, maxLength: { value: 30, message: "El apellido no puede tener mas de 30 caracteres" }, pattern: {
+                    value: /^[A-Za-z\s]+$/i,
+                    message: "El apellido solo puede contener letras y espacios"
+                  }
+                })} />
+              {errors.apellido && <p className="errorsMessage">{errors.apellido.message}</p>}
+              <label htmlFor="apellido" className="formLabel">
+                Apellido:
+              </label>
+              <span className="formLine"></span>
+            </div>
+            <div className="formGroup">
+              <input
+                type="number"
+                inputMode="numeric"
+                id="dni"
+                className="formInput"
+                placeholder=" "
+                defaultValue={selectNombre.dni}
+                {...register("dni", { required: "El dni es obligatori0", min: { value: 1, message: "El dni debe ser mayo a 1 digito" }, max: { value: 20, message: "El dni debe ser menor a 20 digitos" }, validate: { positive: value => parseInt(value, 10) > 1 || "El dni debe ser mayor a 1" } })} />
+
+              {errors.dni && <p className="errorsMessage">{errors.dni.message}</p>}
+              <label htmlFor="dni" className="formLabel">
+                DNI:
+              </label>
+              <span className="formLine"></span>
+            </div>
+            <div className="formGroup">
+              <select name="country" className="formInput" {...register("pais", { required: "Debe seleccionar un pais" })} defaultValue={selectNombre.pais}>
+                <option value="">Seleccione un país:</option>
+                {paisesJSON.map((pais) => (
+                  <option key={pais.value} value={pais.value}>
+                    {pais.label}
+                  </option>
+                ))}
+              </select>
+              {errors.pais && <p className="errorsMessage">{errors.pais.message}</p>}
+              <div />
+              <span className="formLine"></span>
+            </div>
+            <div className="formGroup">
+              <input
+                type="date"
+                id="fecha_contratacion"
+                className="formInput"
+                placeholder=" "
+                {...register("fecha_contratacion", { required: "La fecha de contatacion es obligatoria" })} />
+              {errors.fecha_contratacion && <p className="errorsMessage">{errors.fecha_contratacion.message}</p>}
+              <label htmlFor="fecha_contratacion" className="formLabel">
+                Fecha de contratacion:
+              </label>
+              <span className="formLine"></span>
+            </div>
+            <div className="formGroup">
+              <select name="departamento" className="formInput" {...register("pais", { required: "Debe seleccionar un pais" })}>
+                <option value="">Seleccione un Departamento:</option>
+                {paisesJSON.map((pais) => (
+                  <option key={pais.value} value={pais.value}>
+                    {pais.label}
+                  </option>
+                ))}
+              </select>
+              {errors.pais && <p className="errorsMessage">{errors.pais.message}</p>}
+              <div />
+              <span className="formLine"></span>
+            </div>
+            <div className="formGroup">
+              <input
+                type="text"
+                id="cargo"
+                className="formInput"
+                placeholder=" "
+                defaultValue={selectNombre.cargo}
+                {...register("cargo", {
+                  required: "No ha ingresado ningun cargo", minLength: { value: 2, message: "El cargo debe tener al menos dos caracteres" }, maxLength: { value: 30, message: "El cargo no puede tener mas de 30 caracteres" }, pattern: {
+                    value: /^[A-Za-z\s]+$/i,
+                    message: "El cargo solo puede contener letras y espacios"
+                  }
+                })} />
+              {errors.cargo && <p className="errorsMessage">{errors.cargo.message}</p>}
+              <label htmlFor="cargo" className="formLabel">
+                Cargo:
+              </label>
+              <span className="formLine"></span>
+            </div>
+            <div className="formGroup">
+              <input
+                type="number"
+                id="salario"
+                inputMode="numeric"
+                className="formInput"
+                placeholder=" "
+                defaultValue={selectNombre.salario}
+                {...register("salario", { required: "El salario es obligatorio", min: { value: 100, message: "El minimo permitido es 100." }, max: { value: 9999999, message: "El maximo permitido es: 9999999 " }, validate: { positive: value => parseInt(value, 10) > 100 || "El salario debe ser mayor a 100" } })} />
+              {errors.salario && <p className="errorsMessage">{errors.salario.message}</p>}
+              <label htmlFor="salario" className="formLabel">
+                Salario:
+              </label>
+              <span className="formLine"></span>
+            </div>
+            <input type="submit" className="formSubmit" value="Actualizar Empleado" onClick={question} />
           </div>
-        </div>
-      </form>
+        </form>
+      )}
     </ActualizarEmpleadoComponent>
   );
 };
@@ -228,11 +231,12 @@ const ActualizarEmpleadoComponent = styled.form`
 
   .formTittle {
   font-size: 2rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .formParagraph {
   font-weight: 300;
+  margin-bottom: 1rem;
 }
 
 .formContainer {

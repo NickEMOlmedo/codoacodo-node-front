@@ -6,23 +6,24 @@ import iconoActualizar from '../assets/img/icono-actualizar.png'
 import iconoBuscar from '../assets/img/icono-buscarempleado.png'
 import iconoVolver from '../assets/img/icono-volver.png'
 
+
 const Empleados = () => {
   return (
     <EmpleadosComponent>
       <CardContainer>
-        <Card image={iconoAgregar} text="Añadir Empleados" link="" />
+        <Card image={iconoAgregar} text="Añadir Empleados" link="/addempleado" />
       </CardContainer>
       <CardContainer>
-        <Card image={iconoActualizar} text="Actualizar Empleados" link="" />
+        <Card image={iconoActualizar} text="Actualizar Empleados" link="/updateempleado" />
       </CardContainer>
       <CardContainer>
-        <Card image={iconoBuscar} text="Buscar Empleados" link="" />
+        <Card image={iconoBuscar} text="Listar Empleados" link="" />
       </CardContainer>
       <CardContainer>
-        <Card image={iconoEliminar} text="Eliminar Empleados" link="" />
+        <Card image={iconoEliminar} text="Eliminar Empleados" link="/deleteempleado" />
       </CardContainer>      
       <CardContainer>
-        <Card image={iconoVolver} text="Volver" link="" />
+        <Card image={iconoVolver} text="Volver" link="/dashboard" />
       </CardContainer>
     </EmpleadosComponent>
   )
