@@ -1,196 +1,226 @@
+import { useState, useEffect } from 'react';
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import paisesJSON from '/src/paises.json'
-import axios from "axios";
 import alertError from '/src/components/alertError'
-import alertSuccess from '/src/components/alertSuccess'
-import PropTypes from 'prop-types'
-
+import sendForm from '/src/components/sendForm.js'
 
 const AgregarEmpleado = () => {
 
-  const { register, formState: { errors }, handleSubmit } = useForm();
+  const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
-  const cargarData = async (data) => {
+  const [listaDepartamentos, setListaDepartamentos] = useState([]);
 
-    try {
+  useEffect(() => {
 
-      const empleado = {
+    const fetchDepartamentos = async () => {
 
-        nombre: data.nombre,
-        apellido: data.apellido,
-        dni: data.dni,
-        fecha_contratacion: data.fecha_contratacion,
-        salario: data.salario,
-        departamento: data.departamento,
-        pais: data.pais,
-        cargo: data.cargo,
+      const url_Departamentos = 'http://localhost:3000/departamentos/';
 
+      try {
+
+        const response = await fetch(url_Departamentos);
+
+        if (!response.ok) {
+          
+          throw new Error('Error al cargar departamentos');
+        }
+
+        const data = await response.json();
+
+        setListaDepartamentos(data.data.data);
+
+      } catch (error) {
+
+        console.error('Error cargando departamentos', error);
+
+        alertError('Error al cargar departamentos');
       }
+    };
 
-      const url = '';
+    fetchDepartamentos();
 
-      const response = await axios.post(url, empleado, {
+  }, []);
 
-        headers: { 'Content-Type': 'application/json' }
+  const onSubmitHandler = (data) => {
 
-      })
+    const url = 'http://localhost:3000/empleados/';
 
-      if (response.status === 201) {
+    const empleado = {
 
-        alertSuccess();
+      nombre: data.nombre,
+      apellido: data.apellido,
+      fecha_contratacion: data.fecha_contratacion,
+      salario: data.salario,
+      departamento_id: data.departamento_id,
+      pais: data.pais,
+      cargo: data.cargo,
+      dni: data.dni,
+    };
 
-      }
+    sendForm(url, empleado);
 
-    } catch (error) {
+    reset();
+    
+  };
 
-      alertError(error);
-
-    }
-
-  }
 
   return (
     <EmpleadoFormComponent>
-      <form className="empleadoForm" onSubmit={handleSubmit(cargarData)}>
-        <h2 className="formTittle">Cargar Empleado</h2>
-        <p className="formParagraph">Porfavor ingresa un nuevo empleado:</p>
-        <div className="formContainer">
-          <div className="formGroup">
-            <input
-              type="text"
-              id="nombre"
-              className="formInput"
-              placeholder=" "
-              {...register("nombre", {
-                required: "No ha ingresado ningun nombre", minLength: { value: 2, message: "El nombre debe tener al menos dos caracteres" }, maxLength: { value: 30, message: "El nombre no puede tener mas de 30 caracteres" }, pattern: {
-                  value: /^[A-Za-z\s]+$/i,
-                  message: "El nombre solo puede contener letras y espacios"
-                }
-              })} />
-            {errors.nombre && <p className="errorsMessage">{errors.nombre.message}</p>}
-            <label htmlFor="name" className="formLabel">
-              Nombre:
-            </label>
-            <span className="formLine"></span>
-          </div>
-          <div className="formGroup">
-            <input
-              type="text"
-              id="apellido"
-              className="formInput"
-              placeholder=" "
-              {...register("apellido", {
-                required: "No ha ingresado ningun apellido", minLength: { value: 2, message: "El apellido debe tener al menos dos caracteres" }, maxLength: { value: 30, message: "El apellido no puede tener mas de 30 caracteres" }, pattern: {
-                  value: /^[A-Za-z\s]+$/i,
-                  message: "El apellido solo puede contener letras y espacios"
-                }
-              })} />
-            {errors.apellido && <p className="errorsMessage">{errors.apellido.message}</p>}
-            <label htmlFor="apellido" className="formLabel">
-              Apellido:
-            </label>
-            <span className="formLine"></span>
-          </div>
-          <div className="formGroup">
-            <input
-              type="number"
-              inputMode="numeric"
-              id="dni"
-              className="formInput"
-              placeholder=" "
-              {...register("dni", { required: "El dni es obligatori0", min: { value: 1, message: "El dni debe ser mayo a 1 digito" }, max: { value: 20, message: "El dni debe ser menor a 20 digitos" }, validate: { positive: value => parseInt(value, 10) > 1 || "El dni debe ser mayor a 1" } })} />
-
-            {errors.dni && <p className="errorsMessage">{errors.dni.message}</p>}
-            <label htmlFor="dni" className="formLabel">
-              DNI:
-            </label>
-            <span className="formLine"></span>
-          </div>
-          <div className="formGroup">
-            <select name="country" className="formInput" {...register("pais", { required: "Debe seleccionar un pais" })}>
-              <option value="">Seleccione un país:</option>
-              {paisesJSON.map((pais) => (
-                <option key={pais.value} value={pais.value}>
-                  {pais.label}
-                </option>
-              ))}
-            </select>
-            {errors.pais && <p className="errorsMessage">{errors.pais.message}</p>}
-            <div />
-            <span className="formLine"></span>
-          </div>
-          <div className="formGroup">
-            <input
-              type="date"
-              id="fecha_contratacion"
-              className="formInput"
-              placeholder=" "
-              {...register("fecha_contratacion", { required: "La fecha de contatacion es obligatoria" })} />
-            {errors.fecha_contratacion && <p className="errorsMessage">{errors.fecha_contratacion.message}</p>}
-            <label htmlFor="fecha_contratacion" className="formLabel">
-              Fecha de contratacion:
-            </label>
-            <span className="formLine"></span>
-          </div>
-          <div className="formGroup">
-            <select name="departamento" className="formInput" {...register("pais", { required: "Debe seleccionar un pais" })}>
-              <option value="">Seleccione un Departamento:</option>
-              {paisesJSON.map((pais) => (
-                <option key={pais.value} value={pais.value}>
-                  {pais.label}
-                </option>
-              ))}
-            </select>
-            {errors.pais && <p className="errorsMessage">{errors.pais.message}</p>}
-            <div />
-            <span className="formLine"></span>
-          </div>
-          <div className="formGroup">
-            <input
-              type="text"
-              id="cargo"
-              className="formInput"
-              placeholder=" "
-              {...register("cargo", {
-                required: "No ha ingresado ningun cargo", minLength: { value: 2, message: "El cargo debe tener al menos dos caracteres" }, maxLength: { value: 30, message: "El cargo no puede tener mas de 30 caracteres" }, pattern: {
-                  value: /^[A-Za-z\s]+$/i,
-                  message: "El cargo solo puede contener letras y espacios"
-                }
-              })} />
-            {errors.cargo && <p className="errorsMessage">{errors.cargo.message}</p>}
-            <label htmlFor="cargo" className="formLabel">
-              Cargo:
-            </label>
-            <span className="formLine"></span>
-          </div>
-          <div className="formGroup">
-            <input
-              type="number"
-              id="salario"
-              inputMode="numeric"
-              className="formInput"
-              placeholder=" "
-              {...register("salario", { required: "El salario es obligatorio", min: { value: 100, message: "El minimo permitido es 100." }, max: { value: 9999999, message: "El maximo permitido es: 9999999 " }, validate: { positive: value => parseInt(value, 10) > 100 || "El salario debe ser mayor a 100" } })} />
-            {errors.salario && <p className="errorsMessage">{errors.salario.message}</p>}
-            <label htmlFor="salario" className="formLabel">
-              Salario:
-            </label>
-            <span className="formLine"></span>
-          </div>
-          <input type="submit" className="formSubmit" value="Cargar Empleado" />
+      <h2 className="formTittle">Cargar Empleado</h2>
+      <p className="formParagraph">Por favor ingresa un nuevo empleado:</p>
+      <div className="formContainer">
+        <div className="formGroup">
+        <label htmlFor="nombre" className="formLabel">
+            Nombre:
+          </label>
+          <input
+            type="text"
+            id="nombre"
+            className="formInput"
+            {...register("nombre", {
+              required: "No ha ingresado ningún nombre",
+              minLength: { value: 2, message: "El nombre debe tener al menos dos caracteres" },
+              maxLength: { value: 30, message: "El nombre no puede tener más de 30 caracteres" },
+              pattern: {
+                value: /^[A-Za-z\s]+$/i,
+                message: "El nombre solo puede contener letras y espacios"
+              }
+            })}
+          />
+          {errors.nombre && <p className="errorMessage">{errors.nombre.message}</p>}
+          <span className="formLine"></span>
         </div>
-      </form>
+        <div className="formGroup">
+        <label htmlFor="apellido" className="formLabel">
+            Apellido:
+          </label>
+          <input
+            type="text"
+            id="apellido"
+            className="formInput"
+            {...register("apellido", {
+              required: "No ha ingresado ningún apellido",
+              minLength: { value: 2, message: "El apellido debe tener al menos dos caracteres" },
+              maxLength: { value: 30, message: "El apellido no puede tener más de 30 caracteres" },
+              pattern: {
+                value: /^[A-Za-z\s]+$/i,
+                message: "El apellido solo puede contener letras y espacios"
+              }
+            })}
+          />
+          {errors.apellido && <p className="errorMessage">{errors.apellido.message}</p>}
+          <span className="formLine"></span>
+        </div>
+        <div className="formGroup">
+        <label htmlFor="dni" className="formLabel">
+            DNI:
+          </label>
+          <input
+            type="text"
+            inputMode="numeric"
+            id="dni"
+            className="formInput"
+            {...register("dni", {
+              required: "El DNI es obligatorio",
+              min: { value: 1, message: "El DNI debe ser mayor a 1 dígito y contenero solor numeros" },
+              max: { value: 9999999999, message: "El DNI debe ser menor a 20 dígitos y contener solo numeros" },
+              validate: { positive: value => parseInt(value, 10) > 1 || "El DNI debe ser mayor a 1" }
+            })}
+          />
+          {errors.dni && <p className="errorMessage">{errors.dni.message}</p>}
+          <span className="formLine"></span>
+        </div>
+        <div className="formGroup">
+          <select
+            name="country"
+            className="formInput"
+            {...register("pais", { required: "Debe seleccionar un país" })}
+          >
+            <option value="">Seleccione un país:</option>
+            {paisesJSON.map((pais) => (
+              <option key={pais.value} value={pais.value}>
+                {pais.label}
+              </option>
+            ))}
+          </select>
+          {errors.pais && <p className="errorMessage">{errors.pais.message}</p>}
+          <span className="formLine"></span>
+        </div>
+        <div className="formGroup">
+        <label htmlFor="fecha_contratacion" className="formLabel">
+            Fecha de contratación:
+          </label>
+          <input
+            type="date"
+            id="fecha_contratacion"
+            className="formInput"
+            {...register("fecha_contratacion", { required: "La fecha de contratación es obligatoria" })}
+          />
+          {errors.fecha_contratacion && <p className="errorMessage">{errors.fecha_contratacion.message}</p>}
+          <span className="formLine"></span>
+        </div>
+        <div className="formGroup">
+        <select
+              name="departamento"
+              className="formInput"
+              {...register("departamento", { required: "Debe seleccionar un departamento" })}>
+              <option value="">Seleccione un departamento:</option>
+              {listaDepartamentos.map((departamento) => (
+                <option key={departamento.id} value={departamento.id}>
+                {console.log(departamento)}
+                  {departamento.nombre}
+                </option>
+              ))}
+            </select>
+          {errors.departamento && <p className="errorMessage">{errors.departamento.message}</p>}
+          <span className="formLine"></span>
+        </div>
+        <div className="formGroup">
+        <label htmlFor="cargo" className="formLabel">
+            Cargo:
+          </label>
+          <input
+            type="text"
+            id="cargo"
+            className="formInput"
+            {...register("cargo", {
+              required: "No ha ingresado ningún cargo",
+              minLength: { value: 2, message: "El cargo debe tener al menos dos caracteres" },
+              maxLength: { value: 30, message: "El cargo no puede tener más de 30 caracteres" },
+              pattern: {
+                value: /^[A-Za-z\s]+$/i,
+                message: "El cargo solo puede contener letras y espacios"
+              }
+            })}
+          />
+          {errors.cargo && <p className="errorMessage">{errors.cargo.message}</p>}
+          <span className="formLine"></span>
+        </div>
+        <div className="formGroup">
+        <label htmlFor="salario" className="formLabel">
+            Salario:
+          </label>
+          <input
+            type="text"
+            id="salario"
+            inputMode="numeric"
+            className="formInput"
+            {...register("salario", {
+              required: "El salario es obligatorio",
+              min: { value: 100, message: "El mínimo permitido es 100" },
+              max: { value: 9999999, message: "El máximo permitido es 9999999" },
+              validate: { positive: value => parseInt(value, 10) > 100 || "El salario debe ser mayor a 100" }
+            })}
+          />
+          {errors.salario && <p className="errorMessage">{errors.salario.message}</p>}
+          <span className="formLine"></span>
+        </div>
+        <input type="submit" className="formSubmit" value="Cargar Empleado" onClick={handleSubmit(onSubmitHandler)}/>
+      </div>
     </EmpleadoFormComponent>
+
   )
-}
-
-
-AgregarEmpleado.propTypes = {
-
-  valor: PropTypes.Object,
-  url: PropTypes.string.isRequired,
-
 }
 
 const EmpleadoFormComponent = styled.form`
@@ -234,25 +264,15 @@ const EmpleadoFormComponent = styled.form`
   padding: 0.6rem 0.3rem;
   border: none;
   outline: none;
-  border-bottom: 1px solid var(--color);
   font-family: "Roboto", sans-serif;
 }
 
 .formLabel {
-  color: var(--color);
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  left: 5px;
-  transform: translateY(10px);
-  transition: transform 0.5s color 0.3s;
-}
-
-.formInput:focus + .formLabel,
-.formInput:not(:placeholder-shown) + .formLabel {
-  transform: translateY(-12px) scale(0.9);
-  transform-origin: left top;
+  display:flex;
+  justify-content: flex-start;
   color: #3866f2;
+  border: none;
+  transition: transform 0.5s color 0.3s;
 }
 
 .formSubmit {
@@ -273,15 +293,12 @@ const EmpleadoFormComponent = styled.form`
   width: 100%;
   height: 1px;
   background-color: #3866f2;
-  transform: scale(0);
-  transform: left bottom;
-  transition: transform 0.4s;
 }
 
-.errorsMessage {
+.errorMessage {
 
 color: tomato;
-font-size: 10px; 
+font-size: 10px;
    
 }
 

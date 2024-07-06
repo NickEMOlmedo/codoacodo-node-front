@@ -1,98 +1,180 @@
 import styled from "styled-components";
-import { useState } from "react";
-
-
-
-const proyecto = 0;
-const empleado = 0;
-const fechaAsignacion = 0;
-const  horasTrabajadas = 0;
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import alertError from "../../components/alertError";
+import sendForm from '/src/components/sendForm.js'
 
 
 const AgregarAsignacion = () => {
-    return (
-        <AsignacionesFormComponent>
-            <form className="empleadoForm">
-                <h2 className="formTittle">Cargar Proyecto:</h2>
-                <p className="formParagraph">Porfavor ingresa un nuevo Proyecto:</p>
-                <div className="formContainer">
-                    <div className="formGroup">
-                        <input
-                            type="text"
-                            id="empleado"
-                            className="formInput"
-                            placeholder=" "
-                            onChange={(event) => {
-                                setNombre(event.target.value)
-                            }}
-                        />
-                        <label htmlFor="name" className="formLabel">
-                            Empleado:
-                        </label>
-                        <span className="formLine"></span>
-                    </div>
-                    <div className="formGroup">
-                        <input
-                            type="text"
-                            id="proyecto"
-                            className="formInput"
-                            placeholder=" "
-                            onChange={(event) => {
-                                setProyecto(event.target.value)
-                            }}
-                        />
-                        <label htmlFor="nombre" className="formLabel">
-                            Proyecto:
-                        </label>
-                        <span className="formLine"></span>
-                    </div>
-                    <div className="formGroup">
-                        <input
-                            type="date"
-                            id="fecha_asignacion"
-                            className="formInput"
-                            placeholder=" "
-                            onChange={(event) => {
-                                setFecha_asignacion(event.target.value)
-                            }}
-                        />
-                        <label htmlFor="nombre" className="formLabel">
-                            Fecha de Asignacion:
-                        </label>
-                        <span className="formLine"></span>
-                    </div>
-                    <div className="formGroup">
-                        <input
-                            type="number"
-                            id="horas_trabajadas"
-                            className="formInput"
-                            placeholder=" "
-                            value={horasTrabajadas}
-                            onChange={(event) => {
-                                setHoras(event.target.value)
-                            }}
-                        />
-                        <label htmlFor="nombre" className="formLabel">
-                            Horas Trabajadas:
-                        </label>
-                        <span className="formLine"></span>
-                    </div>
-                    <input type="submit" className="formSubmit" value="Cargar Proyecto" />
-                </div>
-            </form>
-        </AsignacionesFormComponent>
-    )
+
+  const { register, formState: { errors }, reset, handleSubmit } = useForm();
+
+  const [listaEmpleados, setListaEmpleados] = useState([]);
+  const [listaProyectos, setListaProyectos] = useState([]);
+
+
+  useEffect(() => {
+
+    const fetchEmpleadosyProyectos = async () => {
+
+      const url_Empleados = 'http://localhost:3000/empleados/';
+      const url_Proyectos = 'http://localhost:3000/proyectos/';
+
+      try {
+
+        const responseEmpleados = await fetch(url_Empleados);
+
+        if (!responseEmpleados.ok) {
+
+          throw new Error('Error al cargar el empleado');
+        }
+
+        const data = await responseEmpleados.json();
+
+        setListaEmpleados(data.data.data);
+
+      } catch (error) {
+
+        alertError('Error al cargar departamentos');
+
+      }
+
+      try {
+
+        const responseProyectos = await fetch(url_Proyectos);
+
+        if (!responseProyectos.ok) {
+
+          throw new Error('Error al cargar el proyecto');
+        }
+
+        const data = await responseProyectos.json();
+
+        setListaProyectos(data.data.data);
+
+      } catch (error) {
+
+
+        alertError('Error al cargar departamentos');
+
+      }
+
+    };
+
+    fetchEmpleadosyProyectos();
+
+  }, []);
+
+  const onSubmitHandler = (data) => {
+
+    const url = 'http://localhost:3000/asignaciones/';
+
+    const asignacion = {
+
+      empleado_id: data.empleado_id,
+      proyecto_id: data.proyecto_id,
+      fecha_asignacion: data.fecha_asignacion,
+      horas_trabajadas: data.horas_trabajadas,
+
+    };
+
+    sendForm(url, asignacion);
+
+    reset();
+
+  };
+
+  return (
+    <AsignacionesFormComponent>
+      <h2 className="formTittle">Cargar Asignación:</h2>
+      <p className="formParagraph">Por favor ingresa una nueva asignación:</p>
+      <div className="formContainer">
+        <div className="formGroup">
+          <label htmlFor="empleado_id" className="formLabel">
+            Seleccione un Empleado:
+          </label>
+          <select
+            name="empleado_id"
+            className="formInput"
+            {...register("empleado_id", { required: "Debe seleccionar un empleado." })}
+          >
+            <option value="">Elija un Empleado</option>
+            {listaEmpleados.map((empleado) => (
+              <option key={empleado.id} value={empleado.id}>
+                {empleado.nombre}
+              </option>
+            ))}
+          </select>
+          {errors.empleado_id && <p className="errorMessage">{errors.empleado_id.message}</p>}
+          <span className="formLine"></span>
+        </div>
+        <div className="formGroup">
+          <label htmlFor="proyecto" className="formLabel">
+            Seleccione un Proyecto:
+          </label>
+          <select
+            name="proyecto"
+            className="formInput"
+            {...register("proyecto", { required: "Debe seleccionar un proyecto." })}
+          >
+            <option value="">Elija un Proyecto</option>
+            {listaProyectos.map((proyecto) => (
+              <option key={proyecto.id} value={proyecto.id}>
+                {proyecto.nombre}
+              </option>
+            ))}
+          </select>
+          {errors.proyecto && <p className="errorMessage">{errors.proyecto.message}</p>}
+          <span className="formLine"></span>
+        </div>
+        <div className="formGroup">
+          <label htmlFor="fecha_asignacion" className="formLabel">
+            Fecha de asignación:
+          </label>
+          <input
+            type="date"
+            id="fecha_asignacion"
+            className="formInput"
+            {...register("fecha_asignacion", { required: "La fecha de asignación es obligatoria." })}
+          />
+          {errors.fecha_asignacion && <p className="errorMessage">{errors.fecha_asignacion.message}</p>}
+          <span className="formLine"></span>
+        </div>
+        <div className="formGroup">
+          <label htmlFor="horas_trabajadas" className="formLabel">
+            Horas trabajadas:
+          </label>
+          <input
+            type="text"
+            id="horas_trabajadas"
+            inputMode="numeric"
+            className="formInput"
+            {...register("horas_trabajadas", {
+              required: "Las horas trabajadas son obligatorias.",
+              min: { value: 1, message: "El mínimo permitido es 1." },
+              max: { value: 8764, message: "El máximo permitido es 8764." },
+              validate: { positive: value => parseInt(value, 10) > 1 || "Las horas deben ser mayor a 1." }
+            })}
+          />
+          {errors.horas_trabajadas && <p className="errorMessage">{errors.horas_trabajadas.message}</p>}
+          <span className="formLine"></span>
+        </div>
+        <input type="submit" className="formSubmit" value="Cargar Asignación" onClick={handleSubmit(onSubmitHandler)} />
+      </div>
+    </AsignacionesFormComponent>
+
+  )
 }
 
 
 const AsignacionesFormComponent = styled.form`
-
-  background-color: #ffffff;
+background-color: #ffffff;
   width: 90%;
   margin: 0 auto;
+  margin-bottom: 3rem;
   max-width: 400px;
   text-align: center;
-  padding: 4.5rem 3rem;
+  padding: 4.5rem 3rem 2.5rem;
   border-radius: 10px;
   box-shadow: 0 5px 10px -5px rgb(0 0 0 / 100%);
 
@@ -125,25 +207,15 @@ const AsignacionesFormComponent = styled.form`
   padding: 0.6rem 0.3rem;
   border: none;
   outline: none;
-  border-bottom: 1px solid var(--color);
   font-family: "Roboto", sans-serif;
 }
 
 .formLabel {
-  color: var(--color);
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  left: 5px;
-  transform: translateY(10px);
-  transition: transform 0.5s color 0.3s;
-}
-
-.formInput:focus + .formLabel,
-.formInput:not(:placeholder-shown) + .formLabel {
-  transform: translateY(-12px) scale(0.9);
-  transform-origin: left top;
+  display:flex;
+  justify-content: flex-start;
   color: #3866f2;
+  border: none;
+  transition: transform 0.5s color 0.3s;
 }
 
 .formSubmit {
@@ -164,9 +236,13 @@ const AsignacionesFormComponent = styled.form`
   width: 100%;
   height: 1px;
   background-color: #3866f2;
-  transform: scale(0);
-  transform: left bottom;
-  transition: transform 0.4s;
+}
+
+.errorMessage {
+
+color: tomato;
+font-size: 10px;
+   
 }
 
 .formInput:focus ~ .formLine,
@@ -187,8 +263,7 @@ margin-bottom: 2rem;
     font-size: 1.8rem;
   }
 }
-
 `;
 
 
-export default AgregarASig;
+export default AgregarAsignacion;

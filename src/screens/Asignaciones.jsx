@@ -10,13 +10,13 @@ const Asignaciones = () => {
   return (
     <AsignacionesComponent>
     <CardContainer>
-      <Card image={iconoAgregar} text="Añadir Asignaciones" link="" />
+      <Card image={iconoAgregar} text="Añadir Asignaciones" link="/addasignacion" />
     </CardContainer>
     <CardContainer>
       <Card image={iconoActualizar} text="Actualizar Asignaciones" link="" />
     </CardContainer>
     <CardContainer>
-      <Card image={iconoBuscar} text="Buscar Asignaciones" link="" />
+      <Card image={iconoBuscar} text="Listar Asignaciones" link="" />
     </CardContainer>
     <CardContainer>
       <Card image={iconoEliminar} text="Eliminar Asignaciones" link="" />

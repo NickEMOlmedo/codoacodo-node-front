@@ -142,8 +142,6 @@ const EliminarDepartamentoComponent = styled.form`
   border-radius: 0.5em;
 }
 
-
-
 .formLabel {
   color: var(--color);
   cursor: pointer;

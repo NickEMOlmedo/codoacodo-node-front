@@ -19,12 +19,12 @@ const EliminarEmpleado = () => {
 
   const realizarBusqueda = async () => {
 
-    const URLBUSQUEDA = ''; 
+    const URLBUSQUEDA = '';
 
-    const URLELIMINAR = ''; 
+    const URLELIMINAR = '';
 
     try {
-      
+
       const response = await axios.get(URLBUSQUEDA, {
 
         params: { search: selectNombre },
@@ -67,7 +67,7 @@ const EliminarEmpleado = () => {
 
         titulo: selectNombre.nombre,
 
-        esConfirmado: realizarBusqueda, 
+        esConfirmado: realizarBusqueda,
 
       });
 
@@ -78,22 +78,21 @@ const EliminarEmpleado = () => {
   };
 
   return (
+    
     <EliminarEmpleadoComponent>
-      <form className="empleadoForm">
+      <form className="empleadoForm" onSubmit={confirmarEliminar}>
         <h2 className="formTittle">Eliminar Empleado:</h2>
-        <p className="formParagraph">Porfavor ingresa el nombre del empleado:</p>
+        <p className="formParagraph">Por favor ingresa el nombre del empleado:</p>
         <div className="formContainer">
           <div className="formGroup">
-
             <SearchBar handleNombre={handleNombre} />
-
             {selectNombre && <MostrarEmpleado empleado={selectNombre} />}
-
           </div>
-          <input type="submit" className="formSubmit" value="Eliminar Empleado" onClick={confirmarEliminar} />
+          <input type="submit" className="formSubmit" value="Eliminar Empleado" />
         </div>
       </form>
     </EliminarEmpleadoComponent>
+
   )
 }
 

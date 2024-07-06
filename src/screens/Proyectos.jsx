@@ -16,7 +16,7 @@ const Proyectos = () => {
       <Card image={iconoActualizar} text="Actualizar Proyecto" link="" />
     </CardContainer>
     <CardContainer>
-      <Card image={iconoBuscar} text="Buscar Proyectos" link="" />
+      <Card image={iconoBuscar} text="Listar Proyectos" link="" />
     </CardContainer>
     <CardContainer>
       <Card image={iconoEliminar} text="Eliminar Proyectos" link="" />

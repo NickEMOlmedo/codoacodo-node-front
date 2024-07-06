@@ -66,14 +66,12 @@ const ActualizarDepartamento = () => {
 
   return (
     <ActualizarDepartamentoFormComponent>
-
       <SearchBar handleNombre={handleNombre} />
 
       {selectNombre && (
-
-        <form className="empleadoForm" onSubmit={handleSubmit(cargarData)} >
+        <form className="empleadoForm" onSubmit={handleSubmit(cargarData)}>
           <h2 className="formTittle">Cargar Departamento:</h2>
-          <p className="formParagraph">Porfavor ingresa un nuevo Departamento:</p>
+          <p className="formParagraph">Por favor ingresa un nuevo Departamento:</p>
           <div className="formContainer">
             <div className="formGroup">
               <input
@@ -83,11 +81,15 @@ const ActualizarDepartamento = () => {
                 placeholder=" "
                 defaultValue={selectNombre.nombre}
                 {...register("nombre", {
-                  required: "No ha ingresado ningun nombre", minLength: { value: 2, message: "El nombre debe tener al menos dos caracteres" }, maxLength: { value: 30, message: "El nombre no puede tener mas de 30 caracteres" }, pattern: {
+                  required: "No ha ingresado ningun nombre",
+                  minLength: { value: 2, message: "El nombre debe tener al menos dos caracteres" },
+                  maxLength: { value: 30, message: "El nombre no puede tener mas de 30 caracteres" },
+                  pattern: {
                     value: /^[A-Za-z\s]+$/i,
                     message: "El nombre solo puede contener letras y espacios"
                   }
-                })} />
+                })}
+              />
               {errors.nombre && <p className="errorsMessage">{errors.nombre.message}</p>}
               <label htmlFor="nombre" className="formLabel">
                 Nombre:
@@ -102,14 +104,18 @@ const ActualizarDepartamento = () => {
                 placeholder=" "
                 defaultValue={selectNombre.ubicacion}
                 {...register("ubicacion", {
-                  required: "No ha ingresado ninguna ubicacion", minLength: { value: 2, message: "El nombre debe tener al menos dos caracteres" }, maxLength: { value: 30, message: "El nombre no puede tener mas de 30 caracteres" }, pattern: {
+                  required: "No ha ingresado ninguna ubicacion",
+                  minLength: { value: 2, message: "La ubicación debe tener al menos dos caracteres" },
+                  maxLength: { value: 30, message: "La ubicación no puede tener mas de 30 caracteres" },
+                  pattern: {
                     value: /^[A-Za-z\s]+$/i,
-                    message: "El nombre solo puede contener letras y espacios"
+                    message: "La ubicación solo puede contener letras y espacios"
                   }
-                })} />
+                })}
+              />
               {errors.ubicacion && <p className="errorsMessage">{errors.ubicacion.message}</p>}
               <label htmlFor="ubicacion" className="formLabel">
-                Ubicacion:
+                Ubicación:
               </label>
               <span className="formLine"></span>
             </div>
@@ -117,8 +123,9 @@ const ActualizarDepartamento = () => {
           </div>
         </form>
       )}
-
     </ActualizarDepartamentoFormComponent>
+
+
   )
 }
 

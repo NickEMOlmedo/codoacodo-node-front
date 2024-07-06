@@ -11,6 +11,7 @@ import EliminarEmpleado from "../screens/ScreensEmpleados/EliminarEmpleado"
 import AgregarDepartamento from "../screens/ScreensDepartamentos/AgregarDepartamento"
 import EliminarDepartamento from "../screens/ScreensDepartamentos/EliminarDepartamento"
 import ActualizarDepartamento from "../screens/ScreensDepartamentos/ActualizarDepartamento"
+import AgregarAsignacion from "../screens/ScreensAsignaciones/AgregarAsignacion"
 
 export const Routers = () => {
     return (
@@ -30,6 +31,8 @@ export const Routers = () => {
                 <Route path="/adddepartamento" element={<AgregarDepartamento />} />
                 <Route path="/deletedepartamento" element={<EliminarDepartamento />} />
                 <Route path="/updatedepartamento" element={<ActualizarDepartamento/>} />
+                <Route path="/addasignacion" element={<AgregarAsignacion/>} />
+
             </Route>
 
             <Route path="/*" element={<Navigate to="/" />} />

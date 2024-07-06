@@ -4,7 +4,7 @@ const alertSuccess = () => {
   return (
 
     Swal.fire({
-        position: "top-end",
+        position: "center",
         icon: "success",
         title: "¡Operacion Realizada con Exito! ",
         showConfirmButton: false,
