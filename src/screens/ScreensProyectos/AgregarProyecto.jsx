@@ -3,22 +3,23 @@ import { useForm } from "react-hook-form";
 import sendForm from '/src/components/sendForm.js'
 
 
-const AgregarDepartamento = () => {
+const AgregarProyecto = () => {
 
   const { register, formState: { errors }, reset, handleSubmit } = useForm();
 
   const onSubmitHandler = (data) => {
 
-    const url = 'http://localhost:3000/departamentos/';
+    const url = 'http://localhost:3000/proyectos/';
 
-    const departamento = {
+    const proyecto = {
 
       nombre: data.nombre,
-      ubicacion: data.ubicacion,
-
+      fecha_inicio: data.fecha_inicio,
+      presupuesto: data.presupuesto,
+      
     };
 
-    sendForm(url, departamento);
+    sendForm(url, proyecto);
 
     reset();
   
@@ -26,9 +27,9 @@ const AgregarDepartamento = () => {
 
 
   return (
-    <DepartamentoFormComponent>
-      <h2 className="formTitle">Cargar Departamento:</h2>
-      <p className="formParagraph">Por favor ingresa un nuevo Departamento:</p>
+    <AsignacionesFormComponent>
+      <h2 className="formTitle">Cargar Proyecto:</h2>
+      <p className="formParagraph">Por favor ingresa un nuevo proyecto:</p>
       <div className="formContainer">
         <div className="formGroup">
           <label htmlFor="nombre" className="formLabel">
@@ -53,34 +54,44 @@ const AgregarDepartamento = () => {
           <span className="formLine"></span>
         </div>
         <div className="formGroup">
-          <label htmlFor="ubicacion" className="formLabel">
-            Ubicación:
+        <label htmlFor="fecha_inicio" className="formLabel">
+            Fecha de inicio:
+          </label>
+          <input
+            type="date"
+            id="fecha_inicio"
+            className="formInput"
+            {...register("fecha_inicio", { required: "La fecha de inicio es obligatoria" })}
+          />
+          {errors.fecha_inicio && <p className="errorMessage">{errors.fecha_inicio.message}</p>}
+          <span className="formLine"></span>
+        </div>
+        <div className="formGroup">
+        <label htmlFor="presupuesto" className="formLabel">
+            Presupuesto:
           </label>
           <input
             type="text"
-            id="ubicacion"
+            id="presupuesto"
+            inputMode="numeric"
             className="formInput"
-            placeholder=" "
-            {...register("ubicacion", {
-              required: "No ha ingresado ninguna ubicación",
-              minLength: { value: 2, message: "La ubicación debe tener al menos dos caracteres" },
-              maxLength: { value: 30, message: "La ubicación no puede tener más de 30 caracteres" },
-              pattern: {
-                value: /^[A-Za-z\s]+$/i,
-                message: "La ubicación solo puede contener letras y espacios"
-              }
+            {...register("presupuesto", {
+              required: "El presupuesto es obligatorio",
+              min: { value: 100, message: "El mínimo permitido es 100" },
+              max: { value: 9999999999, message: "El máximo permitido es 9999999999" },
+              validate: { positive: value => parseInt(value, 10) > 100 || "El presupuesto debe ser mayor a 100" }
             })}
           />
-          {errors.ubicacion && <p className="errorMessage">{errors.ubicacion.message}</p>}
+          {errors.salario && <p className="errorMessage">{errors.salario.message}</p>}
           <span className="formLine"></span>
         </div>
         <input type="submit" className="formSubmit" value="Cargar Departamento" onClick={handleSubmit(onSubmitHandler)} />
       </div>
-    </DepartamentoFormComponent>
+    </AsignacionesFormComponent>
   )
 }
 
-const DepartamentoFormComponent = styled.form`
+const AsignacionesFormComponent = styled.form`
 
 background-color: #ffffff;
   width: 90%;
@@ -183,4 +194,4 @@ margin-bottom: 2rem;
 
 
 
-export default AgregarDepartamento;
+export default AgregarProyecto;

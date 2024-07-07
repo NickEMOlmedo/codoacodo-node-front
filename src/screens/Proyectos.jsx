@@ -10,7 +10,7 @@ const Proyectos = () => {
   return (
     <ProyectosComponent>
     <CardContainer>
-      <Card image={iconoAgregar} text="Añadir Proyectos" link="" />
+      <Card image={iconoAgregar} text="Añadir Proyectos" link="/addproyecto" />
     </CardContainer>
     <CardContainer>
       <Card image={iconoActualizar} text="Actualizar Proyecto" link="" />

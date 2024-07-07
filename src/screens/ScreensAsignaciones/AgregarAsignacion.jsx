@@ -115,7 +115,7 @@ const AgregarAsignacion = () => {
           <select
             name="proyecto"
             className="formInput"
-            {...register("proyecto", { required: "Debe seleccionar un proyecto." })}
+            {...register("proyecto_id", { required: "Debe seleccionar un proyecto." })}
           >
             <option value="">Elija un Proyecto</option>
             {listaProyectos.map((proyecto) => (
@@ -227,6 +227,7 @@ background-color: #ffffff;
   padding: 0.8em;
   border: none;
   border-radius: 0.5em;
+  cursor: pointer;
 }
 
 .formLine {

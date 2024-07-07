@@ -2,39 +2,38 @@ import { useState, useEffect } from 'react';
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import paisesJSON from '/src/paises.json'
-import alertError from '/src/components/alertError'
+import getDepartamentos from '/src/components/getDepartamentos.js'
 import sendForm from '/src/components/sendForm.js'
+import alertError from '../../components/alertError';
 
 const AgregarEmpleado = () => {
 
-  const { register, formState: { errors }, handleSubmit, reset } = useForm();
+  const { register, formState: { errors }, handleSubmit} = useForm();
 
   const [listaDepartamentos, setListaDepartamentos] = useState([]);
 
   useEffect(() => {
-
+    
     const fetchDepartamentos = async () => {
 
       const url_Departamentos = 'http://localhost:3000/departamentos/';
 
       try {
+        
+        const response = await getDepartamentos(url_Departamentos);
 
-        const response = await fetch(url_Departamentos);
+        if (response && response.data && response.data.data) {
 
-        if (!response.ok) {
-          
-          throw new Error('Error al cargar departamentos');
+          setListaDepartamentos(response.data.data);
+
+        } else {
+
+          throw new Error('Formato de respuesta incorrecto');
         }
-
-        const data = await response.json();
-
-        setListaDepartamentos(data.data.data);
-
       } catch (error) {
-
-        console.error('Error cargando departamentos', error);
-
+        
         alertError('Error al cargar departamentos');
+
       }
     };
 
@@ -60,13 +59,12 @@ const AgregarEmpleado = () => {
 
     sendForm(url, empleado);
 
-    reset();
     
   };
 
 
   return (
-    <EmpleadoFormComponent>
+    <EmpleadoFormComponent onSubmit={handleSubmit(onSubmitHandler)}>
       <h2 className="formTittle">Cargar Empleado</h2>
       <p className="formParagraph">Por favor ingresa un nuevo empleado:</p>
       <div className="formContainer">
@@ -81,7 +79,7 @@ const AgregarEmpleado = () => {
             {...register("nombre", {
               required: "No ha ingresado ningún nombre",
               minLength: { value: 2, message: "El nombre debe tener al menos dos caracteres" },
-              maxLength: { value: 30, message: "El nombre no puede tener más de 30 caracteres" },
+              maxLength: { value: 30, message: "El nombre no puede tener más de 30 caraclearcteres" },
               pattern: {
                 value: /^[A-Za-z\s]+$/i,
                 message: "El nombre solo puede contener letras y espacios"
@@ -164,7 +162,7 @@ const AgregarEmpleado = () => {
         <select
               name="departamento"
               className="formInput"
-              {...register("departamento", { required: "Debe seleccionar un departamento" })}>
+              {...register("departamento_id", { required: "Debe seleccionar un departamento" })}>
               <option value="">Seleccione un departamento:</option>
               {listaDepartamentos.map((departamento) => (
                 <option key={departamento.id} value={departamento.id}>
@@ -216,7 +214,7 @@ const AgregarEmpleado = () => {
           {errors.salario && <p className="errorMessage">{errors.salario.message}</p>}
           <span className="formLine"></span>
         </div>
-        <input type="submit" className="formSubmit" value="Cargar Empleado" onClick={handleSubmit(onSubmitHandler)}/>
+        <input type="submit" className="formSubmit" value="Cargar Empleado"/>
       </div>
     </EmpleadoFormComponent>
 
@@ -284,6 +282,7 @@ const EmpleadoFormComponent = styled.form`
   padding: 0.8em;
   border: none;
   border-radius: 0.5em;
+  cursor: pointer;
 }
 
 .formLine {

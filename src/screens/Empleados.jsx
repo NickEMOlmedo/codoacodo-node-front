@@ -17,7 +17,7 @@ const Empleados = () => {
         <Card image={iconoActualizar} text="Actualizar Empleados" link="/updateempleado" />
       </CardContainer>
       <CardContainer>
-        <Card image={iconoBuscar} text="Listar Empleados" link="" />
+        <Card image={iconoBuscar} text="Listar Empleados" link="/listempleados" />
       </CardContainer>
       <CardContainer>
         <Card image={iconoEliminar} text="Eliminar Empleados" link="/deleteempleado" />
