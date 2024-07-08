@@ -1,103 +1,149 @@
 import styled from "styled-components";
-import { useState } from "react";
-import SearchBar from "../../components/SearchBar";
-import MostrarEmpleado from "../../components/MostrarEmpleado"
-import alertQuestion from "../../components/alertQuestion"
-import axios from "axios";
-import alertSuccess from "../../components/alertSuccess";
+import { useState, useEffect } from "react";
 import alertError from "../../components/alertError";
+import getData from '/src/components/getData.js'
+import MostrarEmpleado from '/src/components/MostrarEmpleado'
+import deleteForm from "../../components/deleteForm";
+import alertQuestion from "../../components/alertQuestion";
+
 
 
 const EliminarEmpleado = () => {
 
-  const [selectNombre, setSelectNombre] = useState("");
+  const [selectEmpleado, setSelectEmpleado] = useState([]);
 
-  const handleNombre = (nombre) => {
+  const [empleadoSeleccionado, setEmpleadoSeleccionado] = useState(null);
 
-    setSelectNombre(nombre);
-  };
+  useEffect(() => {
 
-  const realizarBusqueda = async () => {
+    const fetchEmpleados = async () => {
 
-    const URLBUSQUEDA = '';
+      const url = 'http://localhost:3000/empleados/';
 
-    const URLELIMINAR = '';
+      try {
+        const response = await getData(url);
 
-    try {
+        if (response && response.data && response.data.data) {
 
-      const response = await axios.get(URLBUSQUEDA, {
-
-        params: { search: selectNombre },
-
-      });
-
-      const { dni } = response.data;
-
-      if (response.status === 200 && response.data.status === 'success') {
-
-        const deleteEmpleado = await axios.post(URLELIMINAR, dni);
-
-        if (deleteEmpleado.status === 200) {
-
-          alertSuccess();
+          setSelectEmpleado(response.data.data);
 
         } else {
 
-          alertError();
+          alertError('Error al cargar los empleados');
         }
+
+      } catch (error) {
+
+        alertError();
+
+      }
+    };
+
+    fetchEmpleados();
+
+  }, []);
+
+  const cargarEmpleado = async (dniSelect) => {
+
+    const url = `http://localhost:3000/empleados/${dniSelect}`;
+
+    try {
+
+      const response = await getData(url);
+
+      if (response && response.data && response.data.data && response.data.data.length > 0) {
+
+        const empleado = {
+
+          nombre: response.data.data[0].nombre,
+          apellido: response.data.data[0].apellido,
+          dni: dniSelect,
+          fecha_contratacion: response.data.data[0].fecha_contratacion,
+          salario: response.data.data[0].salario,
+          departamento_id: response.data.data[0].departamento_id,
+          pais: response.data.data[0].pais,
+          cargo: response.data.data[0].cargo
+
+        };
+
+        setEmpleadoSeleccionado(empleado);
+
       } else {
 
-        console.error('Error en la búsqueda:', response.data.message);
+        setEmpleadoSeleccionado(null);
+
+        console.log('No se encontraron datos válidos para el empleado');
 
       }
     } catch (error) {
 
-      console.error('Error en la búsqueda:', error);
+      alert(error);
+    }
+  };
+
+  const deleteAction = async () => {
+
+    const dni = empleadoSeleccionado.dni.trim();
+
+    const url = `http://localhost:3000/empleados/${dni}`;
+    
+  
+    try {
+
+      const isDeleted = await deleteForm(url);
+  
+      if (isDeleted) {
+
+        setEmpleadoSeleccionado(null);
+
+      }
+
+      return isDeleted;
+
+    } catch (error) {
+
+      alertError(error.message || 'Error al eliminar el empleado');
+
+      return false;
 
     }
   };
 
-  const confirmarEliminar = () => {
+  const onSubmit = (e) => {
 
-    if (selectNombre) {
+    e.preventDefault();
 
-      alertQuestion({
+    alertQuestion('Empleado: ', empleadoSeleccionado.nombre + " - " + "DNI: " + empleadoSeleccionado.dni, deleteAction);
 
-        elemento: "Empleado",
-
-        titulo: selectNombre.nombre,
-
-        esConfirmado: realizarBusqueda,
-
-      });
-
-    } else {
-
-      console.error("No se ha seleccionado ningún empleado para eliminar.");
-    }
   };
 
   return (
-    
-    <EliminarEmpleadoComponent>
-      <form className="empleadoForm" onSubmit={confirmarEliminar}>
-        <h2 className="formTittle">Eliminar Empleado:</h2>
-        <p className="formParagraph">Por favor ingresa el nombre del empleado:</p>
-        <div className="formContainer">
-          <div className="formGroup">
-            <SearchBar handleNombre={handleNombre} />
-            {selectNombre && <MostrarEmpleado empleado={selectNombre} />}
-          </div>
-          <input type="submit" className="formSubmit" value="Eliminar Empleado" />
+    <EliminarEmpleadoComponent onSubmit={onSubmit}>
+      <h2 className="formTittle">Eliminar Empleado:</h2>
+      <p className="formParagraph">Por favor elija un empleado a eliminar:</p>
+      <div className="formContainer">
+        <div className="formGroup">
+          <select
+            id="empleado"
+            name="empleado"
+            className="formInput"
+            onChange={(e) => cargarEmpleado(e.target.value)}>
+            <option value="">Seleccione un empleado:</option>
+            {selectEmpleado.map((empleado) => (
+              <option key={empleado.dni} value={empleado.dni}>
+                {`${empleado.nombre} ${empleado.apellido} - DNI: ${empleado.dni}`}
+              </option>
+            ))}
+          </select>
         </div>
-      </form>
+        {empleadoSeleccionado && <MostrarEmpleado empleado={empleadoSeleccionado} />}
+        <input type="submit" className="formSubmit" value="Eliminar Empleado" />
+      </div>
     </EliminarEmpleadoComponent>
-
-  )
-}
+  );
+};
 
 const EliminarEmpleadoComponent = styled.form`
-
   background-color: #ffffff;
   width: 90%;
   margin: 0 auto;
@@ -107,57 +153,51 @@ const EliminarEmpleadoComponent = styled.form`
   border-radius: 10px;
   box-shadow: 0 5px 10px -5px rgb(0 0 0 / 100%);
 
-
   .formTittle {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.formParagraph {
-  font-weight: 300;
-}
-
-.formContainer {
-  margin-top: 3rem;
-  display: grid;
-  gap: 2.5rem;
-}
-
-.formGroup {
-  position: relative;
-  --color: #5757577e;
-}
-
-.formSubmit {
-  background-color: #3866f2;
-  color: #ffffff;
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  padding: 0.8em;
-  border: none;
-  border-radius: 0.5em;
-}
-
-
-
-.formLabel {
-  color: var(--color);
-  cursor: pointer;
-  transform: translateY(10px);
-  transition: transform 0.5s color 0.3s;
-}
-
-@media (max-width: 768px) {
-
-margin-bottom: 2rem;
-
-  .formTittle {
-    font-size: 1.8rem;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
   }
-}
 
+  .formParagraph {
+    font-weight: 300;
+  }
+
+  .formContainer {
+    margin-top: 3rem;
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .formGroup {
+    position: relative;
+    --color: #5757577e;
+  }
+
+  .formSubmit {
+    background-color: #3866f2;
+    color: #ffffff;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    padding: 0.8em;
+    border: none;
+    border-radius: 0.5em;
+  }
+
+  .formLabel {
+    color: #333333;
+    cursor: pointer;
+    transform: translateY(10px);
+    transition: transform 0.5s color 0.3s;
+  }
+
+  @media (max-width: 768px) {
+    margin-bottom: 2rem;
+
+    .formTittle {
+      font-size: 1.8rem;
+    }
+  }
 `;
-
 
 export default EliminarEmpleado;

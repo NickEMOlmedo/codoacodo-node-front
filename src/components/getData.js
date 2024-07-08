@@ -1,6 +1,6 @@
 import alertError from './alertError';
 
-const getDepartamentos = async (url) => {
+const getData = async (url) => {
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -15,7 +15,7 @@ const getDepartamentos = async (url) => {
 
         } else {
 
-            throw new Error('Error al obtener departamentos');
+            throw new Error('Error al obtener los datos');
         }
     } catch (error) {
 
@@ -26,4 +26,4 @@ const getDepartamentos = async (url) => {
     }
 }
 
-export default getDepartamentos;
+export default getData;

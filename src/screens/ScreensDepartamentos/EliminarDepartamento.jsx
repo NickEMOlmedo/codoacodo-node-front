@@ -2,10 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import SearchBar from "../../components/SearchBar";
 import MostrarEmpleado from "../../components/MostrarEmpleado"
-import alertQuestion from "../../components/alertQuestion"
-import axios from "axios";
-import alertSuccess from "../../components/alertSuccess";
-import alertError from "../../components/alertError";
+
 
 const EliminarDepartamento = () => {
 
@@ -16,66 +13,9 @@ const EliminarDepartamento = () => {
         setSelectNombre(nombre);
     };
 
-    const realizarBusqueda = async () => {
+   
 
-        const URLBUSQUEDA = '';
-
-        const URLELIMINAR = '';
-
-        try {
-
-            const response = await axios.get(URLBUSQUEDA, {
-
-                params: { search: selectNombre },
-
-            });
-
-            const { dni } = response.data;
-
-            if (response.status === 200 && response.data.status === 'success') {
-
-                const deleteDepartamento = await axios.post(URLELIMINAR, dni);
-
-                if (deleteDepartamento.status === 200) {
-
-                    alertSuccess();
-
-                } else {
-
-                    alertError();
-                }
-            } else {
-
-                console.error('Error en la búsqueda:', response.data.message);
-
-            }
-        } catch (error) {
-
-            console.error('Error en la búsqueda:', error);
-
-        }
-    };
-
-    const confirmarEliminar = () => {
-
-        if (selectNombre) {
-
-            alertQuestion({
-
-                elemento: "Departamento",
-
-                titulo: selectNombre.nombre,
-
-                esConfirmado: realizarBusqueda,
-
-            });
-
-        } else {
-
-            console.error("No se ha seleccionado ningún departamento para eliminar.");
-        }
-    };
-
+ 
 
 
     return (
@@ -92,7 +32,7 @@ const EliminarDepartamento = () => {
                         {selectNombre && <MostrarEmpleado empleado={selectNombre} />}
 
                     </div>
-                    <input type="submit" className="formSubmit" value="Eliminar Departamento" onClick={confirmarEliminar} />
+                    <input type="submit" className="formSubmit" value="Eliminar Departamento" />
                 </div>
             </form>
         </EliminarDepartamentoComponent>

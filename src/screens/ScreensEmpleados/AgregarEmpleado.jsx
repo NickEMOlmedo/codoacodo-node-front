@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import paisesJSON from '/src/paises.json'
-import getDepartamentos from '/src/components/getDepartamentos.js'
+import getData from '/src/components/getData.js'
 import sendForm from '/src/components/sendForm.js'
 import alertError from '../../components/alertError';
 
@@ -20,7 +20,7 @@ const AgregarEmpleado = () => {
 
       try {
         
-        const response = await getDepartamentos(url_Departamentos);
+        const response = await getData(url_Departamentos);
 
         if (response && response.data && response.data.data) {
 

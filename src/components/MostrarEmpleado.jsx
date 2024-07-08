@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 
-const MostrarEmpleado = (empleado) => {
+const MostrarEmpleado = ({empleado}) => {
 
   
-    const {nombre,apellido,dni,fecha_contratacion,salario,departamento,pais,cargo} = empleado;
+    const {nombre,apellido,dni,fecha_contratacion,salario,departamento_id,pais,cargo} = empleado;
 
     return (
 
@@ -20,7 +20,7 @@ const MostrarEmpleado = (empleado) => {
                                 <li><strong>DNI:{" "}</strong> {dni}</li>
                                 <li><strong>Fecha de Contratacion:{" "}</strong> {fecha_contratacion}</li>
                                 <li><strong>Salario:{" "}</strong>{salario}</li>
-                                <li><strong>Departamento:{" "}</strong>{departamento}</li>
+                                <li><strong>Departamento:{" "}</strong>{departamento_id}</li>
                                 <li><strong>Pais:{" "}</strong>{pais}</li>
                                 <li><strong>Cargo:{" "}</strong>{cargo}</li>
                             </ul>
@@ -34,10 +34,10 @@ MostrarEmpleado.propTypes = {
 empleado : PropTypes.shape({
 nombre: PropTypes.string.isRequired,
 apellido: PropTypes.string.isRequired,
-dni: PropTypes.number.isRequired,
-fecha_contratacion: PropTypes.instanceOf(Date).isRequired,
-salario: PropTypes.number.isRequired,
-departamento: PropTypes.string.isRequired,
+dni: PropTypes.string.isRequired,
+fecha_contratacion: PropTypes.string.isRequired,
+salario: PropTypes.string.isRequired,
+departamento_id: PropTypes.number.isRequired,
 pais: PropTypes.string.isRequired,
 cargo: PropTypes.string.isRequired,
 

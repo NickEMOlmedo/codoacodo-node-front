@@ -1,35 +1,48 @@
-import alertSucces from '../components/alertSuccess'
-import alertError from '../components/alertError'
+import alertSuccess from '../components/alertSuccess';
+import alertError from '../components/alertError';
 
-const deleteForm = async (url, data) => {
+const deleteForm = async (url) => {
+  try {
+    const response = await fetch(url, {
 
-    try {
+      method: 'DELETE',
 
-        const response = await fetch(url, {
+      headers: {
 
-            method: 'DELETE',
-            headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-                'Content-Type': 'application/json',
+    if (response.ok) {
 
-            },
+      const result = await response.json();
 
-            body: JSON.stringify(data)
+      if (result.status === 'success') {
+        
+        alertSuccess();
 
-        })
+        return true;
 
-        if (response.ok) {
+      } else {
 
-            alertSucces();
+        alertError('Error al eliminar el empleado');
 
-        }
+        return false;
 
-    } catch (error) {
+      }
+      
+    } else {
 
-        alertError(error);
+      alertError('Error al eliminar el empleado');
 
+      return false;
     }
+  } catch (error) {
 
-}
+    alertError(error.message || 'Error al eliminar el empleado');
+
+    return false;
+  }
+};
 
 export default deleteForm;

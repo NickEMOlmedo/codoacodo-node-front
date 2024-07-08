@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import SearchBar from "../../components/SearchBar";
 import alertError from "../../components/alertError";
 import alertSuccess from "../../components/alertSuccess";
