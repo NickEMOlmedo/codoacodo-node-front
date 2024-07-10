@@ -15,9 +15,9 @@ const alertQuestion = async (elemento, titulo, esConfirmado) => {
 
   if (result.isConfirmed) {
 
-    const isDeleted = await esConfirmado();
+    const isTrue = await esConfirmado();
 
-    if (isDeleted) {
+    if (isTrue) {
 
       Swal.fire({
         title: "¡Eliminado!",
@@ -26,10 +26,9 @@ const alertQuestion = async (elemento, titulo, esConfirmado) => {
         
       });
 
-      // Recarga la página 2 segundos después de la confirmación
       setTimeout(() => {
         window.location.reload();
-      }, 2000);
+      }, 1500);
     }
   }
 }

@@ -2,25 +2,24 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import getData from '/src/components/getData.js'
 import alertError from '../../components/alertError';
-import moment from 'moment';
 
-const ListarEmpleados = () => {
+const ListarProyectos = () => {
 
-    const [listaEmpleados, setListaEmpleados] = useState([]);
+    const [ListaProyectos, setListaProyectos] = useState([]);
 
     useEffect(() => {
     
-        const fetchEmpleados= async () => {
+        const fetchDepartamentos=  async () => {
     
-          const url_Empleados = 'http://localhost:3000/empleados';
+          const url_Proyectos = 'http://localhost:3000/proyectos';
     
           try {
             
-            const response = await getData(url_Empleados);
+            const response = await getData(url_Proyectos);
     
             if (response && response.data && response.data.data) {
-    
-              setListaEmpleados(response.data.data);
+
+              setListaProyectos(response.data.data);
     
             } else {
     
@@ -33,36 +32,38 @@ const ListarEmpleados = () => {
           }
         };
     
-        fetchEmpleados();
+        fetchDepartamentos();
     
       }, []);
-    
 
+      const formatFechaInicio = (fecha) => {
+
+        return new Date(fecha).toISOString().split('T')[0];
+    
+      };
+    
+    
   return (
 
-    <EmpleadoListContainer>
+    <ProyectoListContainer>
 
-      <h2>Listado de Empleados:</h2>
+      <h2>Listado de Departamentos:</h2>
       <ul>
-        {listaEmpleados.map((empleado) => (
-          <EmpleadoItem key={empleado.id}>
-            <strong>{empleado.nombre} {empleado.apellido}</strong>
-            <p>DNI: {empleado.dni}</p>
-            <p>Pais: {empleado.pais}</p>
-            <p>Fecha de Contratacion: {moment(empleado.fecha_contratacion).format('YYYY-MM-DD')}</p>
-            <p>Departamento: {empleado.departamento}</p>
-            <p>Cargo: {empleado.cargo}</p>
-            <p>Salaio: {empleado.salario}</p>
+        {ListaProyectos.map((proyecto) => (
+          <ProyectoItem key={proyecto.id}>
+            <strong>{proyecto.nombre}</strong>
+            <p>Fecha de inciio: {formatFechaInicio(proyecto.fecha_inicio)}</p>
+            <p>Presupuesto: {proyecto.presupuesto}</p>
             {}
-          </EmpleadoItem>
+          </ProyectoItem>
         ))}
       </ul>
 
-    </EmpleadoListContainer>
+    </ProyectoListContainer>
   );
 };
 
-const EmpleadoListContainer = styled.div`
+const ProyectoListContainer = styled.div`
 
   background-color: #f0f0f0;
   padding: 20px;
@@ -87,7 +88,7 @@ const EmpleadoListContainer = styled.div`
 
 `;
 
-const EmpleadoItem = styled.li`
+const ProyectoItem = styled.li`
 
   background-color: #ffffff;
   padding: 10px;
@@ -109,4 +110,4 @@ const EmpleadoItem = styled.li`
   }
 `;
 
-export default ListarEmpleados;
+export default ListarProyectos;

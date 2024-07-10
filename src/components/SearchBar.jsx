@@ -10,7 +10,7 @@ const SearchBarComponent = ({ handleSelect }) => {
     const searchTerm = event.target.value;
     setSearchTerm(searchTerm);
 
-    // Llamar a la función para obtener resultados del backend
+ 
     if (searchTerm.trim() !== '') {
       try {
         const response = await fetch(`http://localhost:3000/empleados/search/${searchTerm}`);
@@ -25,7 +25,7 @@ const SearchBarComponent = ({ handleSelect }) => {
         setResults([]);
       }
     } else {
-      setResults([]); // Limpiar resultados si el término de búsqueda está vacío
+      setResults([]); 
     }
   };
 

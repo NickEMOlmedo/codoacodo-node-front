@@ -2,24 +2,23 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import getData from '/src/components/getData.js'
 import alertError from '../../components/alertError';
-import moment from 'moment';
 
-const ListarEmpleados = () => {
+const ListarDepartamentos = () => {
 
     const [listaEmpleados, setListaEmpleados] = useState([]);
 
     useEffect(() => {
     
-        const fetchEmpleados= async () => {
+        const fetchDepartamentos=  async () => {
     
-          const url_Empleados = 'http://localhost:3000/empleados';
+          const url_Empleados = 'http://localhost:3000/departamentos';
     
           try {
             
             const response = await getData(url_Empleados);
     
             if (response && response.data && response.data.data) {
-    
+
               setListaEmpleados(response.data.data);
     
             } else {
@@ -33,36 +32,31 @@ const ListarEmpleados = () => {
           }
         };
     
-        fetchEmpleados();
+        fetchDepartamentos();
     
       }, []);
     
-
   return (
 
-    <EmpleadoListContainer>
+    <DepartamentoListContainer>
 
-      <h2>Listado de Empleados:</h2>
+      <h2>Listado de Departamentos:</h2>
       <ul>
-        {listaEmpleados.map((empleado) => (
-          <EmpleadoItem key={empleado.id}>
-            <strong>{empleado.nombre} {empleado.apellido}</strong>
-            <p>DNI: {empleado.dni}</p>
-            <p>Pais: {empleado.pais}</p>
-            <p>Fecha de Contratacion: {moment(empleado.fecha_contratacion).format('YYYY-MM-DD')}</p>
-            <p>Departamento: {empleado.departamento}</p>
-            <p>Cargo: {empleado.cargo}</p>
-            <p>Salaio: {empleado.salario}</p>
+        {listaEmpleados.map((departamento) => (
+          <DepartamentoItem key={departamento.id}>
+            <strong>{departamento.nombre}</strong>
+            <p>ID: {departamento.id}</p>
+            <p>Ubicacion: {departamento.ubicacion}</p>
             {}
-          </EmpleadoItem>
+          </DepartamentoItem>
         ))}
       </ul>
 
-    </EmpleadoListContainer>
+    </DepartamentoListContainer>
   );
 };
 
-const EmpleadoListContainer = styled.div`
+const DepartamentoListContainer = styled.div`
 
   background-color: #f0f0f0;
   padding: 20px;
@@ -87,7 +81,7 @@ const EmpleadoListContainer = styled.div`
 
 `;
 
-const EmpleadoItem = styled.li`
+const DepartamentoItem = styled.li`
 
   background-color: #ffffff;
   padding: 10px;
@@ -109,4 +103,4 @@ const EmpleadoItem = styled.li`
   }
 `;
 
-export default ListarEmpleados;
+export default ListarDepartamentos;

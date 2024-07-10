@@ -11,6 +11,7 @@ import EliminarEmpleado from "../screens/ScreensEmpleados/EliminarEmpleado"
 import AgregarDepartamento from "../screens/ScreensDepartamentos/AgregarDepartamento"
 import EliminarDepartamento from "../screens/ScreensDepartamentos/EliminarDepartamento"
 import ActualizarDepartamento from "../screens/ScreensDepartamentos/ActualizarDepartamento"
+import ListarDepartamentos from "../screens/ScreensDepartamentos/ListarDepartamentos"
 import AgregarAsignacion from "../screens/ScreensAsignaciones/AgregarAsignacion"
 import AgregarProyecto from "../screens/ScreensProyectos/AgregarProyecto"
 import ListarEmpleados from "../screens/ScreensEmpleados/ListarEmpleados"
@@ -34,6 +35,7 @@ export const Routers = () => {
                 <Route path="/adddepartamento" element={<AgregarDepartamento />} />
                 <Route path="/deletedepartamento" element={<EliminarDepartamento />} />
                 <Route path="/updatedepartamento" element={<ActualizarDepartamento/>} />
+                <Route path="/listdepartamentos" element={<ListarDepartamentos/>} />
                 <Route path="/addasignacion" element={<AgregarAsignacion/>} />
                 <Route path="/addproyecto" element={<AgregarProyecto/>} />
                 
@@ -44,3 +46,5 @@ export const Routers = () => {
         </Routes>
     )
 }
+
+export default Routers;

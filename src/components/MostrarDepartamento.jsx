@@ -1,10 +1,48 @@
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import { useState, useEffect } from 'react'
+import getData from './getData'
+import alertError from './alertError'
 
+export const MostrarDepartamento = ({ departamento_id }) => {
+    
+    const [departamento, setDepartamento] = useState(null);
 
-export const MostrarDepartamento = (departamento) => {
+    useEffect(() => {
+        const fetchDepartamento = async () => {
 
-    const {nombre, ubicacion} = departamento;
+            const url = `http://localhost:3000/departamentos/${departamento_id}`;
+
+            try {
+                const response = await getData(url);
+
+                if (response && response.data && response.data.data && response.data.data.length > 0) {
+                    const departamento = {
+                        id: response.data.data[0].id,
+                        nombre: response.data.data[0].nombre,
+                        ubicacion: response.data.data[0].ubicacion,
+                    };
+
+                    setDepartamento(departamento);
+
+                } else {
+
+                    alertError('No se encontraron datos válidos para el departamento');
+                }
+            } catch (error) {
+
+                alertError('Error al cargar el departamento');
+            }
+        };
+
+        fetchDepartamento();
+    }, [departamento_id]);
+
+    if (!departamento) {
+        return null;
+    }
+
+    const { nombre, ubicacion } = departamento;
 
     return (
         <MostrarDepartamentoComponent>
@@ -13,7 +51,7 @@ export const MostrarDepartamento = (departamento) => {
                 <h2>Información del Departamento:</h2>
                 <ul>
                     <li><strong>Nombre:{" "}</strong> {nombre}</li>
-                    <li><strong>Ubicacion:{" "}</strong> {ubicacion}</li>
+                    <li><strong>Ubicación:{" "}</strong> {ubicacion}</li>
                 </ul>
             </div>
         </MostrarDepartamentoComponent>
@@ -22,19 +60,13 @@ export const MostrarDepartamento = (departamento) => {
 
 MostrarDepartamento.propTypes = {
 
-
-    departamento: PropTypes.shape({
-        nombre: PropTypes.string.isRequired,
-        ubicacion: PropTypes.string.isRequired,
-
-    })
-
+    departamento_id: PropTypes.number.isRequired,
 }
 
 const MostrarDepartamentoComponent = styled.form`
     
       background-color: #ffffff;
-      width: 90%;
+      width: 100%;
       margin: 0 auto;
       max-width: 400px;
       text-align: center;

@@ -6,12 +6,9 @@ import MostrarEmpleado from '/src/components/MostrarEmpleado'
 import deleteForm from "../../components/deleteForm";
 import alertQuestion from "../../components/alertQuestion";
 
-
-
 const EliminarEmpleado = () => {
 
   const [selectEmpleado, setSelectEmpleado] = useState([]);
-
   const [empleadoSeleccionado, setEmpleadoSeleccionado] = useState(null);
 
   useEffect(() => {
@@ -90,15 +87,15 @@ const EliminarEmpleado = () => {
   
     try {
 
-      const isDeleted = await deleteForm(url);
+      const isTrue = await deleteForm(url);
   
-      if (isDeleted) {
+      if (isTrue) {
 
         setEmpleadoSeleccionado(null);
 
       }
 
-      return isDeleted;
+      return isTrue;
 
     } catch (error) {
 
@@ -144,6 +141,7 @@ const EliminarEmpleado = () => {
 };
 
 const EliminarEmpleadoComponent = styled.form`
+
   background-color: #ffffff;
   width: 90%;
   margin: 0 auto;

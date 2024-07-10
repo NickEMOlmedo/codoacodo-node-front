@@ -1,5 +1,6 @@
 import "./App.css";
-import EliminarEmpleado from "./screens/ScreensEmpleados/EliminarEmpleado";
+import Routers from '/src/routes/Routers'
+
 
 
 
@@ -7,8 +8,8 @@ function App() {
 
   return(  
 
-<EliminarEmpleado/>
-    
+<Routers/>
+
   )
   
 

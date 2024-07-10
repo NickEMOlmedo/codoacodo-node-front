@@ -20,63 +20,65 @@ const AgregarDepartamento = () => {
 
     sendForm(url, departamento);
 
-    reset();
+    setTimeout(() => {
+    reset()
+    }, 2000);
   
   }
 
 
   return (
-    <DepartamentoFormComponent>
-      <h2 className="formTitle">Cargar Departamento:</h2>
-      <p className="formParagraph">Por favor ingresa un nuevo Departamento:</p>
-      <div className="formContainer">
-        <div className="formGroup">
-          <label htmlFor="nombre" className="formLabel">
-            Nombre:
-          </label>
-          <input
-            type="text"
-            id="nombre"
-            className="formInput"
-            placeholder=" "
-            {...register("nombre", {
-              required: "No ha ingresado ningún nombre",
-              minLength: { value: 2, message: "El nombre debe tener al menos dos caracteres" },
-              maxLength: { value: 30, message: "El nombre no puede tener más de 30 caracteres" },
-              pattern: {
-                value: /^[A-Za-z\s]+$/i,
-                message: "El nombre solo puede contener letras y espacios"
-              }
-            })}
-          />
-          {errors.nombre && <p className="errorMessage">{errors.nombre.message}</p>}
-          <span className="formLine"></span>
-        </div>
-        <div className="formGroup">
-          <label htmlFor="ubicacion" className="formLabel">
-            Ubicación:
-          </label>
-          <input
-            type="text"
-            id="ubicacion"
-            className="formInput"
-            placeholder=" "
-            {...register("ubicacion", {
-              required: "No ha ingresado ninguna ubicación",
-              minLength: { value: 2, message: "La ubicación debe tener al menos dos caracteres" },
-              maxLength: { value: 30, message: "La ubicación no puede tener más de 30 caracteres" },
-              pattern: {
-                value: /^[A-Za-z\s]+$/i,
-                message: "La ubicación solo puede contener letras y espacios"
-              }
-            })}
-          />
-          {errors.ubicacion && <p className="errorMessage">{errors.ubicacion.message}</p>}
-          <span className="formLine"></span>
-        </div>
-        <input type="submit" className="formSubmit" value="Cargar Departamento" onClick={handleSubmit(onSubmitHandler)} />
+    <DepartamentoFormComponent onSubmit={handleSubmit(onSubmitHandler)}>
+    <h2 className="formTitle">Cargar Departamento:</h2>
+    <p className="formParagraph">Por favor ingresa un nuevo Departamento:</p>
+    <div className="formContainer">
+      <div className="formGroup">
+        <label htmlFor="nombre" className="formLabel">
+          Nombre:
+        </label>
+        <input
+          type="text"
+          id="nombre"
+          className="formInput"
+          placeholder=" "
+          {...register("nombre", {
+            required: "No ha ingresado ningún nombre",
+            minLength: { value: 2, message: "El nombre debe tener al menos dos caracteres" },
+            maxLength: { value: 30, message: "El nombre no puede tener más de 30 caracteres" },
+            pattern: {
+              value: /^[A-Za-z\s]+$/i,
+              message: "El nombre solo puede contener letras y espacios"
+            }
+          })}
+        />
+        {errors.nombre && <p className="errorMessage">{errors.nombre.message}</p>}
+        <span className="formLine"></span>
       </div>
-    </DepartamentoFormComponent>
+      <div className="formGroup">
+        <label htmlFor="ubicacion" className="formLabel">
+          Ubicación:
+        </label>
+        <input
+          type="text"
+          id="ubicacion"
+          className="formInput"
+          placeholder=" "
+          {...register("ubicacion", {
+            required: "No ha ingresado ninguna ubicación",
+            minLength: { value: 2, message: "La ubicación debe tener al menos dos caracteres" },
+            maxLength: { value: 30, message: "La ubicación no puede tener más de 30 caracteres" },
+            pattern: {
+              value: /^[A-Za-z\s]+$/i,
+              message: "La ubicación solo puede contener letras y espacios"
+            }
+          })}
+        />
+        {errors.ubicacion && <p className="errorMessage">{errors.ubicacion.message}</p>}
+        <span className="formLine"></span>
+      </div>
+      <input type="submit" className="formSubmit" value="Cargar Departamento" />
+    </div>
+  </DepartamentoFormComponent>
   )
 }
 

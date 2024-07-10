@@ -1,7 +1,7 @@
 import alertSucces from '../components/alertSuccess'
 import alertError from '../components/alertError'
 
-const updateForm = async (url, data) => {
+const updateForm = async (url, empleado) => {
 
     try {
 
@@ -14,7 +14,7 @@ const updateForm = async (url, data) => {
 
             },
 
-            body: JSON.stringify(data)
+            body: JSON.stringify(empleado)
 
         })
 

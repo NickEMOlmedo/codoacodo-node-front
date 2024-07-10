@@ -17,7 +17,7 @@ const Departamentos = () => {
         <Card image={iconoActualizar} text="Actualizar Departamentos" link="/updatedepartamento" />
       </CardContainer>
       <CardContainer>
-        <Card image={iconoBuscar} text="Listar Departamentos" link="" />
+        <Card image={iconoBuscar} text="Listar Departamentos" link="/listdepartamentos" />
       </CardContainer>
       <CardContainer>
         <Card image={iconoEliminar} text="Eliminar Departamentos" link="/deletedepartamento" />
