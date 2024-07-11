@@ -15,15 +15,24 @@ import ListarDepartamentos from "../screens/ScreensDepartamentos/ListarDepartame
 import AgregarAsignacion from "../screens/ScreensAsignaciones/AgregarAsignacion"
 import AgregarProyecto from "../screens/ScreensProyectos/AgregarProyecto"
 import ListarEmpleados from "../screens/ScreensEmpleados/ListarEmpleados"
+import EliminarProyecto from '../screens/ScreensProyectos/EliminarProyecto'
+import ListarProyectos from '../screens/ScreensProyectos/ListarProyectos'
+import ListarAsignaciones from "../screens/ScreensAsignaciones/ListarAsignaciones"
+import LoginForm from "../screens/Login"
+import RegisterForm from "../screens/Register"
 
 export const Routers = () => {
     return (
         <Routes>
-
-            <Route path="/" element={<Home />} />
+    
+      <Route path="/" element={<Home />}>
+      
+        <Route path="login" element={<LoginForm />} />
+        <Route path="register" element={<RegisterForm />} />
+      </Route>
+            
             <Route path="/dashboard" element={<Dashboard />} />
             <Route element={<Dashboard />}>
-
                 <Route path="/empleados" element={<Empleados />} />
                 <Route path="/departamentos" element={<Departamentos />} />
                 <Route path="/proyectos" element={<Proyectos />} />
@@ -37,7 +46,10 @@ export const Routers = () => {
                 <Route path="/updatedepartamento" element={<ActualizarDepartamento/>} />
                 <Route path="/listdepartamentos" element={<ListarDepartamentos/>} />
                 <Route path="/addasignacion" element={<AgregarAsignacion/>} />
+                <Route path="/listasignaciones" element={<ListarAsignaciones/>} />
                 <Route path="/addproyecto" element={<AgregarProyecto/>} />
+                <Route path="/deleteproyecto" element={<EliminarProyecto/>} />
+                <Route path="/listproyectos" element={<ListarProyectos/>} />
                 
             </Route>
 

@@ -23,7 +23,7 @@ const Departamentos = () => {
         <Card image={iconoEliminar} text="Eliminar Departamentos" link="/deletedepartamento" />
       </CardContainer>
       <CardContainer>
-        <Card image={iconoVolver} text="Volver" link="" />
+        <Card image={iconoVolver} text="Volver" link="/dashboard" />
       </CardContainer>
     </DepartamentosComponent>
   )

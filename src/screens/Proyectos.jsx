@@ -16,13 +16,13 @@ const Proyectos = () => {
       <Card image={iconoActualizar} text="Actualizar Proyecto" link="" />
     </CardContainer>
     <CardContainer>
-      <Card image={iconoBuscar} text="Listar Proyectos" link="" />
+      <Card image={iconoBuscar} text="Listar Proyectos" link="/listproyectos" />
     </CardContainer>
     <CardContainer>
-      <Card image={iconoEliminar} text="Eliminar Proyectos" link="" />
+      <Card image={iconoEliminar} text="Eliminar Proyectos" link="/deleteproyecto" />
     </CardContainer>
     <CardContainer>
-      <Card image={iconoVolver} text="Volver" link="" />
+      <Card image={iconoVolver} text="Volver" link="/dashboard" />
     </CardContainer>
   </ProyectosComponent>
   )

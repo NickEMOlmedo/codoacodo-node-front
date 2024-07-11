@@ -12,6 +12,8 @@ const AgregarEmpleado = () => {
 
   const [listaDepartamentos, setListaDepartamentos] = useState([]);
 
+  //Fetch para Setear las listas de seleccion.
+
   useEffect(() => {
     
     const fetchDepartamentos = async () => {

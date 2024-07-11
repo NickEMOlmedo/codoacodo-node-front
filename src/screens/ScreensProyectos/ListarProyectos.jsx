@@ -47,12 +47,12 @@ const ListarProyectos = () => {
 
     <ProyectoListContainer>
 
-      <h2>Listado de Departamentos:</h2>
+      <h2>Listado de Proyectos:</h2>
       <ul>
         {ListaProyectos.map((proyecto) => (
           <ProyectoItem key={proyecto.id}>
             <strong>{proyecto.nombre}</strong>
-            <p>Fecha de inciio: {formatFechaInicio(proyecto.fecha_inicio)}</p>
+            <p>Fecha de incio: {formatFechaInicio(proyecto.fecha_inicio)}</p>
             <p>Presupuesto: {proyecto.presupuesto}</p>
             {}
           </ProyectoItem>
@@ -109,5 +109,6 @@ const ProyectoItem = styled.li`
     color: #333333;
   }
 `;
+
 
 export default ListarProyectos;

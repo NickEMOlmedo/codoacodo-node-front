@@ -7,6 +7,8 @@ const ListarDepartamentos = () => {
 
     const [listaEmpleados, setListaEmpleados] = useState([]);
 
+    //Fetch  para llenar el listado.
+
     useEffect(() => {
     
         const fetchDepartamentos=  async () => {
@@ -45,7 +47,6 @@ const ListarDepartamentos = () => {
         {listaEmpleados.map((departamento) => (
           <DepartamentoItem key={departamento.id}>
             <strong>{departamento.nombre}</strong>
-            <p>ID: {departamento.id}</p>
             <p>Ubicacion: {departamento.ubicacion}</p>
             {}
           </DepartamentoItem>

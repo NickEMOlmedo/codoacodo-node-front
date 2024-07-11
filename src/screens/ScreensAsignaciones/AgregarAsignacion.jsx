@@ -12,6 +12,7 @@ const AgregarAsignacion = () => {
   const [listaEmpleados, setListaEmpleados] = useState([]);
   const [listaProyectos, setListaProyectos] = useState([]);
 
+  //Fetch para Setear las listas de seleccion.
 
   useEffect(() => {
 
@@ -265,6 +266,7 @@ margin-bottom: 2rem;
   }
 }
 `;
+
 
 
 export default AgregarAsignacion;

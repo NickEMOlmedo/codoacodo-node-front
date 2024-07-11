@@ -2,22 +2,20 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import alertError from "../../components/alertError";
 import getData from "../../components/getData";
-import MostrarDepartamento from "../../components/MostrarDepartamento";
+import MostrarProyecto from "../../components/MostrarProyectos";
 import deleteForm from "../../components/deleteForm";
 import alertQuestion from "../../components/alertQuestion";
 
-const EliminarDepartamento = () => {
+const EliminarProyecto = () => {
 
-  const [selectDepartamento, setSelectDepartamento] = useState([]);
-  const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState(null);
-
-  //Fetch para Setear las listas de seleccion.
+  const [selectProyecto, setSelectProyecto] = useState([]);
+  const [proyectoSeleccionado, setProyectoSeleccionado] = useState(null);
 
   useEffect(() => {
 
-    const fetchDepartamentos = async () => {
+    const fetchProyectos= async () => {
 
-      const url = 'http://localhost:3000/departamentos/';
+      const url = 'http://localhost:3000/proyectos/';
 
       try {
         
@@ -25,24 +23,24 @@ const EliminarDepartamento = () => {
 
         if (response && response.data && response.data.data) {
 
-          setSelectDepartamento(response.data.data);
+          setSelectProyecto(response.data.data);
 
         } else {
 
-          alertError('Error al cargar los departamentos');
+          alertError('Error al cargar los Proyectosa');
         }
       } catch (error) {
 
-        alertError('Error al cargar los departamentos');
+        alertError('Error al cargar los Proyectos');
       }
     };
 
-    fetchDepartamentos();
+    fetchProyectos();
   }, []);
 
-  const cargarDepartamento = async (id) => {
+  const cargarProyecto = async (id) => {
 
-    const url = `http://localhost:3000/departamentos/${id}`;
+    const url = `http://localhost:3000/proyectos/${id}`;
 
     try {
 
@@ -50,37 +48,38 @@ const EliminarDepartamento = () => {
 
       if (response && response.data && response.data.data && response.data.data.length > 0) {
 
-        const departamento = {
+        const proyecto = {
 
           id: response.data.data[0].id,
           nombre: response.data.data[0].nombre,
-          ubicacion: response.data.data[0].ubicacion,
+          fecha_inicio: response.data.data[0].fecha_inicio,
+          presupuesto: response.data.data[0].presupuesto,
 
         };
 
-        setDepartamentoSeleccionado(departamento);
+        setProyectoSeleccionado(proyecto);
 
       } else {
 
-        setDepartamentoSeleccionado(null);
+        setProyectoSeleccionado(null);
 
-        console.log('No se encontraron datos válidos para el departamento');
+        console.log('No se encontraron datos válidos para el Proyecto');
 
       }
 
     } catch (error) {
 
-      alertError('Error al cargar el departamento');
+      alertError('Error al cargar el proyecto');
     }
   };
 
   const deleteAction = async () => {
 
-    if (!departamentoSeleccionado) return false;
+    if (!proyectoSeleccionado) return false;
 
-    const id = departamentoSeleccionado.id;
+    const id = proyectoSeleccionado.id;
 
-    const url = `http://localhost:3000/departamentos/${id}`;
+    const url = `http://localhost:3000/proyectos/${id}`;
 
     try {
 
@@ -88,7 +87,7 @@ const EliminarDepartamento = () => {
 
       if (isTrue) {
 
-        setDepartamentoSeleccionado(null);
+        setProyectoSeleccionado(null);
 
       }
 
@@ -96,7 +95,7 @@ const EliminarDepartamento = () => {
 
     } catch (error) {
 
-      alertError('Error al eliminar el departamento');
+      alertError('Error al eliminar el proyecto');
 
       return false;
     }
@@ -106,43 +105,44 @@ const EliminarDepartamento = () => {
 
     e.preventDefault();
 
-    if (departamentoSeleccionado) {
+    if (proyectoSeleccionado) {
 
       alertQuestion(
-        'Departamento: ',
-        `${departamentoSeleccionado.nombre} - ID: ${departamentoSeleccionado.id}`,
+        'Proyecto: ',
+        `${proyectoSeleccionado.nombre} - ID: ${proyectoSeleccionado.id}`,
         deleteAction
       );
     }
   };
 
   return (
-    <EliminarDepartamentoComponent onSubmit={handleSubmit}>
-      <h2 className="formTittle">Eliminar Departamento</h2>
-      <p className="formParagraph">Por favor elija un departamento a eliminar:</p>
+    <EliminarProyectoComponent onSubmit={handleSubmit}>
+      <h2 className="formTittle">Eliminar Proyecto</h2>
+      <p className="formParagraph">Por favor elija un proyecto a eliminar:</p>
       <div className="formContainer">
         <div className="formGroup">
           <select
-            id="departamento"
-            name="departamento"
+            id="proyecto"
+            name="proyecto"
             className="formInput"
-            onChange={(e) => cargarDepartamento(e.target.value)}>
-            <option value="">Seleccione un departamento:</option>
-            {selectDepartamento.map((departamento) => (
-              <option key={departamento.id} value={departamento.id}>
-                {`${departamento.nombre}`}
+            onChange={(e) => cargarProyecto(e.target.value)}>
+            <option value="">Seleccione un proyecto:</option>
+            {selectProyecto.map((proyecto) => (
+              <option key={proyecto.id} value={proyecto.id}>
+                {`${proyecto.nombre}`}
               </option>
             ))}
           </select>
         </div>
-        {departamentoSeleccionado && <MostrarDepartamento departamento_id={departamentoSeleccionado.id} />}
-        <input type="submit" className="formSubmit" value="Eliminar Departamento" />
+        {proyectoSeleccionado && <MostrarProyecto proyecto_id={proyectoSeleccionado.id} />}
+        <input type="submit" className="formSubmit" value="Eliminar Proyecto" />
       </div>
-    </EliminarDepartamentoComponent>
+    </EliminarProyectoComponent>
   );
 };
 
-const EliminarDepartamentoComponent = styled.form`
+const EliminarProyectoComponent = styled.form`
+
   background-color: #ffffff;
   width: 100%;
   margin: 0 auto;
@@ -201,4 +201,4 @@ const EliminarDepartamentoComponent = styled.form`
 
 
 
-export default EliminarDepartamento;
+export default EliminarProyecto;

@@ -28,6 +28,7 @@ const AgregarDepartamento = () => {
 
 
   return (
+    
     <DepartamentoFormComponent onSubmit={handleSubmit(onSubmitHandler)}>
     <h2 className="formTitle">Cargar Departamento:</h2>
     <p className="formParagraph">Por favor ingresa un nuevo Departamento:</p>
@@ -78,6 +79,7 @@ const AgregarDepartamento = () => {
       </div>
       <input type="submit" className="formSubmit" value="Cargar Departamento" />
     </div>
+    
   </DepartamentoFormComponent>
   )
 }

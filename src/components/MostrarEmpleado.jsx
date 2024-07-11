@@ -8,6 +8,13 @@ const MostrarEmpleado = ({empleado}) => {
   
     const {nombre,apellido,dni,fecha_contratacion,salario,departamento_id,pais,cargo} = empleado;
 
+
+  const formatFechaContratacion = (fecha) => {
+
+    return new Date(fecha).toISOString().split('T')[0];
+
+  };
+
     return (
 
         <MostrarEmpleadoComponent>
@@ -18,7 +25,7 @@ const MostrarEmpleado = ({empleado}) => {
                                 <li><strong>Nombre:{" "}</strong> {nombre}</li>
                                 <li><strong>Apellido:{" "}</strong> {apellido}</li>
                                 <li><strong>DNI:{" "}</strong> {dni}</li>
-                                <li><strong>Fecha de Contratacion:{" "}</strong> {fecha_contratacion}</li>
+                                <li><strong>Fecha de Contratacion:{" "}</strong> {formatFechaContratacion(fecha_contratacion)}</li>
                                 <li><strong>Salario:{" "}</strong>{salario}</li>
                                 <li><strong>Departamento:{" "}</strong>{departamento_id}</li>
                                 <li><strong>Pais:{" "}</strong>{pais}</li>
