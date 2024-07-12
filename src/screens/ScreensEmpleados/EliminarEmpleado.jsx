@@ -15,7 +15,7 @@ const EliminarEmpleado = () => {
 
     const fetchEmpleados = async () => {
 
-      const url = 'http://localhost:3000/empleados/';
+      const url = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/empleados/';
 
       try {
         const response = await getData(url);
@@ -42,7 +42,7 @@ const EliminarEmpleado = () => {
 
   const cargarEmpleado = async (dniSelect) => {
 
-    const url = `http://localhost:3000/empleados/${dniSelect}`;
+    const url = `https://sistema-gestion-de-empleados-backend-2024.vercel.app/empleados/${dniSelect}`;
 
     try {
 

@@ -18,8 +18,8 @@ const AgregarAsignacion = () => {
 
     const fetchEmpleadosyProyectos = async () => {
 
-      const url_Empleados = 'http://localhost:3000/empleados/';
-      const url_Proyectos = 'http://localhost:3000/proyectos/';
+      const url_Empleados = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/empleados/';
+      const url_Proyectos = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/proyectos/';
 
       try {
 
@@ -68,7 +68,7 @@ const AgregarAsignacion = () => {
 
   const onSubmitHandler = (data) => {
 
-    const url = 'http://localhost:3000/asignaciones/';
+    const url = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/asignaciones/';
 
     const asignacion = {
 

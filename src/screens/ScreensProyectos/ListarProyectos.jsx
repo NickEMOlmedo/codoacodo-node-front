@@ -11,7 +11,7 @@ const ListarProyectos = () => {
     
         const fetchDepartamentos=  async () => {
     
-          const url_Proyectos = 'http://localhost:3000/proyectos';
+          const url_Proyectos = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/proyectos/';
     
           try {
             

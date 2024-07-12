@@ -17,7 +17,7 @@ const EliminarDepartamento = () => {
 
     const fetchDepartamentos = async () => {
 
-      const url = 'http://localhost:3000/departamentos/';
+      const url = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/departamentos/';
 
       try {
         
@@ -42,7 +42,7 @@ const EliminarDepartamento = () => {
 
   const cargarDepartamento = async (id) => {
 
-    const url = `http://localhost:3000/departamentos/${id}`;
+    const url = `https://sistema-gestion-de-empleados-backend-2024.vercel.app/departamentos/${id}`;
 
     try {
 
@@ -80,7 +80,7 @@ const EliminarDepartamento = () => {
 
     const id = departamentoSeleccionado.id;
 
-    const url = `http://localhost:3000/departamentos/${id}`;
+    const url = `https://sistema-gestion-de-empleados-backend-2024.vercel.app/departamentos/${id}`;
 
     try {
 

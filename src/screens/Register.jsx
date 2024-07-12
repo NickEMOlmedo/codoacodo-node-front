@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import sendForm from '/src/components/sendForm.js';
+import responseLogin from '/src/components/responseLogin.js'
 import alertSuccess from '/src/components/alertSuccess'
 import { Link } from "react-router-dom";
 
@@ -10,16 +10,20 @@ const RegisterForm = () => {
 
   const onSubmitHandler = async (data) => {
 
-    const url = 'http://localhost:3000/auth/register';
+    console.log(data)
+
+    const url = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/usuarios/register/';
 
     const credentials = {
 
-      email: data.email,
+      username: data.email,
       password: data.password,
 
     };
 
-    const response = await sendForm(url, credentials);
+    const response = await responseLogin(url,credentials);
+
+    console.log(response)
 
     if (response.status === 'success') {
 

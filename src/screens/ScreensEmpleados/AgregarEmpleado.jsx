@@ -18,7 +18,7 @@ const AgregarEmpleado = () => {
     
     const fetchDepartamentos = async () => {
 
-      const url_Departamentos = 'http://localhost:3000/departamentos/';
+      const url_Departamentos = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/departamentos';
 
       try {
         
@@ -45,7 +45,7 @@ const AgregarEmpleado = () => {
 
   const onSubmitHandler = (data) => {
 
-    const url = 'http://localhost:3000/empleados/';
+    const url = 'http://sistema-gestion-de-empleados-backend-2024.vercel.app/empleados/';
 
     const empleado = {
 

@@ -1,85 +1,110 @@
-
-import styled from "styled-components";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import sendForm from '/src/components/sendForm.js';
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import responseLogin from "/src/components/responseLogin.js";
+import styled from "styled-components";
 
 const LoginForm = () => {
-
   const { register, formState: { errors }, handleSubmit, reset } = useForm();
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const onSubmitHandler = async (data) => {
-    
-    const url = 'http://localhost:3000/auth/login';
-
+    const url = "https://sistema-gestion-de-empleados-backend-2024.vercel.app/usuarios/login";
     const credentials = {
-      email: data.email,
+      username: data.email,
       password: data.password,
     };
 
-    const response = await sendForm(url, credentials);
+    try {
+      const response = await responseLogin(url, credentials);
 
-    if (response.token) {
+      if (response.token) {
 
-      localStorage.setItem('token', response.token);
+        localStorage.setItem("token", response.token);
 
-    } else {
-   
-      console.error("Error de autenticación");
+console.log(response.token);
+
+        setLoggedIn(true);
+
+      } else {
+        console.log("Error al iniciar sesión");
+      }
+    } catch (error) {
+      console.error("Error al procesar el inicio de sesión:", error);
     }
 
     setTimeout(() => {
       reset();
     }, 2000);
+  };
+
+  if (loggedIn) {
+    return <Navigate to="/dashboard" />;
   }
+
 
   return (
     <>
-    <LoginFormComponent onSubmit={handleSubmit(onSubmitHandler)}>
-      <h2 className="formTitle">Iniciar Sesión</h2>
-      <p className="formParagraph">Por favor ingresa tus credenciales:</p>
-      <div className="formContainer">
-        <div className="formGroup">
-          <label htmlFor="email" className="formLabel">Correo Electrónico:</label>
+      <LoginFormComponent onSubmit={handleSubmit(onSubmitHandler)}>
+        <h2 className="formTitle">Iniciar Sesión</h2>
+        <p className="formParagraph">Por favor ingresa tus credenciales:</p>
+        <div className="formContainer">
+          <div className="formGroup">
+            <label htmlFor="email" className="formLabel">
+              Correo Electrónico:
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="formInput"
+              placeholder=" "
+              {...register("email", {
+                required: "El correo electrónico es obligatorio",
+                pattern: {
+                  value: /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/,
+                  message: "Formato de correo electrónico inválido",
+                },
+              })}
+            />
+            {errors.email && (
+              <p className="errorMessage">{errors.email.message}</p>
+            )}
+            <span className="formLine"></span>
+          </div>
+          <div className="formGroup">
+            <label htmlFor="password" className="formLabel">
+              Contraseña:
+            </label>
+            <input
+              type="password"
+              id="password"
+              className="formInput"
+              placeholder=" "
+              {...register("password", {
+                required: "La contraseña es obligatoria",
+                minLength: {
+                  value: 6,
+                  message: "La contraseña debe tener al menos seis caracteres",
+                },
+              })}
+            />
+            {errors.password && (
+              <p className="errorMessage">{errors.password.message}</p>
+            )}
+            <span className="formLine"></span>
+          </div>
           <input
-            type="email"
-            id="email"
-            className="formInput"
-            placeholder=" "
-            {...register("email", {
-              required: "El correo electrónico es obligatorio",
-              pattern: {
-                value: /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/,
-                message: "Formato de correo electrónico inválido"
-              }
-            })}
+            type="submit"
+            className="formSubmit"
+            value="Iniciar Sesión"
           />
-          {errors.email && <p className="errorMessage">{errors.email.message}</p>}
-          <span className="formLine"></span>
         </div>
-        <div className="formGroup">
-          <label htmlFor="password" className="formLabel">Contraseña:</label>
-          <input
-            type="password"
-            id="password"
-            className="formInput"
-            placeholder=" "
-            {...register("password", {
-              required: "La contraseña es obligatoria",
-              minLength: { value: 6, message: "La contraseña debe tener al menos seis caracteres" }
-            })}
-          />
-          {errors.password && <p className="errorMessage">{errors.password.message}</p>}
-          <span className="formLine"></span>
-        </div>
-        <input type="submit" className="formSubmit" value="Iniciar Sesión" />
-      </div>
-    </LoginFormComponent>
+      </LoginFormComponent>
 
-    <StyledLink to="/">Volver</StyledLink>
-</>
+      <StyledLink to="/">Volver</StyledLink>
+    </>
   );
-}
+};
 
 const LoginFormComponent = styled.form`
   background-color: #ffffff;
@@ -124,7 +149,7 @@ const LoginFormComponent = styled.form`
   }
 
   .formLabel {
-    display:flex;
+    display: flex;
     justify-content: flex-start;
     color: #3866f2;
     border: none;
@@ -176,12 +201,10 @@ const LoginFormComponent = styled.form`
 `;
 
 const StyledLink = styled(Link)`
-
-
   width: 150px;
   height: 60px;
   margin-top: -1rem;
-  padding:  1rem;
+  padding: 1rem;
   font-size: 1rem;
   color: white;
   background-color: #1c2833;
@@ -194,8 +217,6 @@ const StyledLink = styled(Link)`
   &:hover {
     background-color: #444cf7;
   }
-
 `;
-
 
 export default LoginForm;

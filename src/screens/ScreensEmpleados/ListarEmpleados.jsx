@@ -12,7 +12,7 @@ const ListarEmpleados = () => {
     
         const fetchEmpleados= async () => {
     
-          const url_Empleados = 'http://localhost:3000/empleados';
+          const url_Empleados = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/empleados/';
     
           try {
             

@@ -21,7 +21,7 @@ const ActualizarEmpleado = () => {
 
     const fetchDepartamentos = async () => {
 
-      const url_Departamentos = 'http://localhost:3000/departamentos/';
+      const url_Departamentos = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/departamentos/';
 
       try {
         
@@ -44,7 +44,7 @@ const ActualizarEmpleado = () => {
 
     const fetchEmpleados = async () => {
 
-      const url = 'http://localhost:3000/empleados/';
+      const url = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/empleados/';
 
       try {
         const response = await getData(url);
@@ -72,7 +72,7 @@ const ActualizarEmpleado = () => {
 
   const cargarEmpleado = async (dniSelect) => {
 
-    const url = `http://localhost:3000/empleados/${dniSelect}`;
+    const url = `https://sistema-gestion-de-empleados-backend-2024.vercel.app/empleados/${dniSelect}`;
 
     try {
 

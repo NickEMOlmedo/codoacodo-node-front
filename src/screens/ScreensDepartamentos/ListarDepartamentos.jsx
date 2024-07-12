@@ -13,7 +13,7 @@ const ListarDepartamentos = () => {
     
         const fetchDepartamentos=  async () => {
     
-          const url_Empleados = 'http://localhost:3000/departamentos';
+          const url_Empleados = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/departamentos';
     
           try {
             

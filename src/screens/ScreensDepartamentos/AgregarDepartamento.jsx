@@ -9,7 +9,7 @@ const AgregarDepartamento = () => {
 
   const onSubmitHandler = (data) => {
 
-    const url = 'http://localhost:3000/departamentos/';
+    const url = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/departamentos/';
 
     const departamento = {
 

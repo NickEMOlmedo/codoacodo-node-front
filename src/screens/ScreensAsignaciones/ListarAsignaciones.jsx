@@ -13,7 +13,7 @@ const ListarAsignaciones= () => {
     
         const fetchAsignaciones =  async () => {
     
-          const url_Asignaciones = 'http://localhost:3000/asignaciones';
+          const url_Asignaciones = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/asignaciones';
     
           try {
             

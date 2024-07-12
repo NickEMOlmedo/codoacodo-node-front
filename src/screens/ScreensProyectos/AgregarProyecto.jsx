@@ -9,7 +9,7 @@ const AgregarProyecto = () => {
 
   const onSubmitHandler = (data) => {
 
-    const url = 'http://localhost:3000/proyectos/';
+    const url = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/proyectos/';
 
     const proyecto = {
 

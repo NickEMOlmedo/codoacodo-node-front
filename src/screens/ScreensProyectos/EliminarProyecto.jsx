@@ -15,7 +15,7 @@ const EliminarProyecto = () => {
 
     const fetchProyectos= async () => {
 
-      const url = 'http://localhost:3000/proyectos/';
+      const url = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/proyectos/';
 
       try {
         
@@ -40,7 +40,7 @@ const EliminarProyecto = () => {
 
   const cargarProyecto = async (id) => {
 
-    const url = `http://localhost:3000/proyectos/${id}`;
+    const url = `https://sistema-gestion-de-empleados-backend-2024.vercel.app/proyectos/${id}`;
 
     try {
 
@@ -79,7 +79,7 @@ const EliminarProyecto = () => {
 
     const id = proyectoSeleccionado.id;
 
-    const url = `http://localhost:3000/proyectos/${id}`;
+    const url = `https://sistema-gestion-de-empleados-backend-2024.vercel.app/proyectos/${id}`;
 
     try {
 
