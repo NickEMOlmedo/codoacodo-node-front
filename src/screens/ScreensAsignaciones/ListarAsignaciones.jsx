@@ -1,146 +1,102 @@
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import getData from '/src/components/getData.js'
+import styled from 'styled-components';
+import getData from '../../components/getData';
 import alertError from '../../components/alertError';
 
-const ListarAsignaciones= () => {
+const ListarAsignaciones = () => {
+  const [listaAsignaciones, setListaAsignaciones] = useState([]);
 
-    const [listaAsignaciones, setListaAsignaciones] = useState([]);
+  useEffect(() => {
+    const fetchAsignaciones = async () => {
+      const url_Asignaciones =
+        'https://sistema-gestion-de-empleados-backend-2024.vercel.app/asignaciones';
 
-    //Fetch  para llenar el listado.
+      try {
+        const response = await getData(url_Asignaciones);
 
-    useEffect(() => {
-    
-        const fetchAsignaciones =  async () => {
-    
-          const url_Asignaciones = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/asignaciones';
-    
-          try {
-            
-            const response = await getData(url_Asignaciones);
-    
-            if (response && response.data && response.data.data) {
+        if (response && response.data && response.data.data) {
+          setListaAsignaciones(response.data.data);
+        } else {
+          throw new Error('Formato de respuesta incorrecto');
+        }
+      } catch (error) {
+        alertError('Error al cargar las asignaciones');
+      }
+    };
 
-              setListaAsignaciones(response.data.data);
+    fetchAsignaciones();
+  }, []);
 
-              console.log(response.data.data)
-    
-            } else {
-    
-              throw new Error('Formato de respuesta incorrecto');
-            }
-          } catch (error) {
-            
-            alertError('Error al cargar las asignaciones');
-    
-          }
+  const fetchEmpleado = async (id) => {
+
+    const url_Empleado = `https://sistema-gestion-de-empleados-backend-2024.vercel.app/empleados/${id}`;
+
+    try {
+      
+      const response = await getData(url_Empleado);
+
+      if (response && response.data && response.data.data.length > 0) {
+
+        const empleado = {
+
+          nombre: response.data.data[0].nombre,
+          dni: response.data.data[0].dni,
+
         };
-    
-        fetchAsignaciones();
-        
-    
-      }, []);
+        return empleado;
 
-      const fetchEmpleado = async (id) => {
+      } else {
 
-        const url_Empleado = `http://localhost:3000/empleados/${id}`
-
-        try {
-            
-            const response = await getData(url_Empleado);
-    
-            if (response && response.data && response.data.data) {
-
-                const empleado = {
-
-                    nombre: response.data.data[0].nombre,
-                    apellido: response.data.data[0].apellido,
-                    dni: response.data.data[0].dni,
-                    fecha_contratacion: response.data.data[0].fecha_contratacion,
-                    salario: response.data.data[0].salario,
-                    departamento_id: response.data.data[0].departamento_id,
-                    pais: response.data.data[0].pais,
-                    cargo: response.data.data[0].cargo
-          
-                  };
-
-                  console.log(empleado)
-
-                  return empleado;
-
-    
-            } else {
-    
-              throw new Error('Formato de respuesta incorrecto');
-            }
-          } catch (error) {
-            
-            alertError('Error al cargar el Proyecto');
-    
-          }
+        throw new Error('Empleado no encontrado o respuesta vacía');
       }
+    } catch (error) {
 
-      const fetchProyecto = async (id) => {
+      alertError(error.message); 
+    }
+  };
 
-        const url_Proyecto = `http://localhost:3000/proyectos/${id}`
+  const fetchProyecto = async (id) => {
+    const url_Proyecto = `https://sistema-gestion-de-empleados-backend-2024.vercel.app/proyectos/${id}`;
 
-        try {
-            
-            const response = await getData(url_Proyecto);
-    
-            if (response && response.data && response.data.data) {
+    try {
+      const response = await getData(url_Proyecto);
 
-                const proyecto = {
-
-                    id: response.data.data[0].id,
-                    nombre: response.data.data[0].nombre,
-                    fecha_inicio: response.data.data[0].fecha_inicio,
-                    presupuesto: response.data.data[0].presupuesto,
-          
-                  };
-
-                  console.log(proyecto)
-
-             return proyecto;
-
-
-            } else {
-    
-              throw new Error('Formato de respuesta incorrecto');
-            }
-          } catch (error) {
-            
-            alertError('Error al cargar el Proyecto');
-    
-          }
+      if (response && response.data && response.data.data.length > 0) {
+        const proyecto = {
+          nombre: response.data.data[0].nombre,
+        };
+        return proyecto;
+      } else {
+        throw new Error('Proyecto no encontrado o respuesta vacía');
       }
+    } catch (error) {
+      alertError(error.message); 
+    }
+  };
 
-      const formatFechaAsignacion = (fecha) => {
+  const formatFechaAsignacion = (fecha) => {
+    return new Date(fecha).toISOString().split('T')[0];
+  };
 
-        return new Date(fecha).toISOString().split('T')[0];
-    
-      };
-    
   return (
-
     <AsignacionListContainer>
-
       <h2>Listado de Asignaciones:</h2>
       <ul>
         {listaAsignaciones.map((asignacion) => (
           <AsignacionItem key={asignacion.id}>
-            <p>Empleado:  {fetchEmpleado(asignacion.empleado_id).nombre} DNI:  { fetchEmpleado(asignacion.empleado_id).dni}</p>
-            <p>Proyecto:  {fetchProyecto(asignacion.proyecto_id).nombre}</p>
-            <p>Fecha Asignacion:  {formatFechaAsignacion(asignacion.fecha_asignacion)}</p>
-            <p>Horas Trabajadas  {asignacion.horas_trabajadas}</p>
+            <p>
+              Empleado: {fetchEmpleado(asignacion.empleado_id)?.nombre || 'Cargando...'} DNI:{' '}
+              {fetchEmpleado(asignacion.empleado_id)?.dni || 'Cargando...'}
+            </p>
+            <p>Proyecto: {fetchProyecto(asignacion.proyecto_id)?.nombre || 'Cargando...'}</p>
+            <p>Fecha Asignacion: {formatFechaAsignacion(asignacion.fecha_asignacion)}</p>
+            <p>Horas Trabajadas: {asignacion.horas_trabajadas}</p>
           </AsignacionItem>
         ))}
       </ul>
-
     </AsignacionListContainer>
   );
 };
-
 const AsignacionListContainer = styled.div`
 
   background-color: #f0f0f0;

@@ -1,35 +1,35 @@
-import alertSucces from '../components/alertSuccess'
-import alertError from '../components/alertError'
+import alertSuccess from '../components/alertSuccess';
+import alertError from '../components/alertError';
 
 const updateForm = async (url, empleado) => {
-
     try {
+        const token = localStorage.getItem('token');
 
-        const response = await fetch(url, {
+        const headers = {
+            
+            'Content-Type': 'application/json',
+        };
 
-            method: 'PUT',
-            headers: {
-
-                'Content-Type': 'application/json',
-
-            },
-
-            body: JSON.stringify(empleado)
-
-        })
-
-        if (response.ok) {
-
-            alertSucces();
-
+        if (token) {
+            headers['authorization'] = token;
         }
 
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: headers,
+            body: JSON.stringify(empleado)
+        });
+
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        if (response.ok) {
+            alertSuccess('Empleado actualizado con éxito');
+        } else {
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
     } catch (error) {
-
         alertError(error);
-
     }
-
-}
+};
 
 export default updateForm;

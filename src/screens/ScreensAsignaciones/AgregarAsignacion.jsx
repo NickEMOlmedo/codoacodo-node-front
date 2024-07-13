@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import alertError from "../../components/alertError";
 import sendForm from '/src/components/sendForm.js'
+import getData from '/src/components/getData.js'
+
 
 
 const AgregarAsignacion = () => {
@@ -22,41 +24,38 @@ const AgregarAsignacion = () => {
       const url_Proyectos = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/proyectos/';
 
       try {
+        
+        const response = await getData(url_Empleados);
 
-        const responseEmpleados = await fetch(url_Empleados);
+        if (response && response.data && response.data.data) {
 
-        if (!responseEmpleados.ok) {
+          setListaEmpleados(response.data.data);
 
-          throw new Error('Error al cargar el empleado');
+        } else {
+
+          throw new Error('Formato de respuesta incorrecto');
         }
-
-        const data = await responseEmpleados.json();
-
-        setListaEmpleados(data.data.data);
-
       } catch (error) {
-
-        alertError('Error al cargar departamentos');
+        
+        alertError(error);
 
       }
 
       try {
+        
+        const response = await getData(url_Proyectos);
 
-        const responseProyectos = await fetch(url_Proyectos);
+        if (response && response.data && response.data.data) {
 
-        if (!responseProyectos.ok) {
+          setListaProyectos(response.data.data);
 
-          throw new Error('Error al cargar el proyecto');
+        } else {
+
+          throw new Error('Formato de respuesta incorrecto');
         }
-
-        const data = await responseProyectos.json();
-
-        setListaProyectos(data.data.data);
-
       } catch (error) {
-
-
-        alertError('Error al cargar departamentos');
+        
+        alertError(error);
 
       }
 

@@ -82,7 +82,7 @@ const EliminarEmpleado = () => {
 
     const dni = empleadoSeleccionado.dni.trim();
 
-    const url = `http://localhost:3000/empleados/${dni}`;
+    const url = `http://sistema-gestion-de-empleados-backend-2024.vercel.app/empleados/${dni}`;
     
   
     try {

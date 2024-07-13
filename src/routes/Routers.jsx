@@ -25,7 +25,7 @@ export const Routers = () => {
     return (
         <Routes>
     
-      <Route path="/" element={<Home />}>
+      <Route path="*" element={<Home />}>
       
         <Route path="login" element={<LoginForm />} />
         <Route path="register" element={<RegisterForm />} />
@@ -46,7 +46,7 @@ export const Routers = () => {
                 <Route path="/updatedepartamento" element={<ActualizarDepartamento/>} />
                 <Route path="/listdepartamentos" element={<ListarDepartamentos/>} />
                 <Route path="/addasignacion" element={<AgregarAsignacion/>} />
-                <Route path="/listasignaciones" element={<ListarAsignaciones/>} />
+                <Route path="/listarignaciones" element={<ListarAsignaciones/>} />
                 <Route path="/addproyecto" element={<AgregarProyecto/>} />
                 <Route path="/deleteproyecto" element={<EliminarProyecto/>} />
                 <Route path="/listproyectos" element={<ListarProyectos/>} />

@@ -16,7 +16,7 @@ const Asignaciones = () => {
       <Card image={iconoActualizar} text="Actualizar Asignaciones" link="" />
     </CardContainer>
     <CardContainer>
-      <Card image={iconoBuscar} text="Listar Asignaciones" link="/listasignaciones" />
+      <Card image={iconoBuscar} text="Listar Asignaciones" link="/listarignaciones" />
     </CardContainer>
     <CardContainer>
       <Card image={iconoEliminar} text="Eliminar Asignaciones" link="" />

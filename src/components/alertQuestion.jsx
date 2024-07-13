@@ -4,7 +4,7 @@ const alertQuestion = async (elemento, titulo, esConfirmado) => {
 
   const result = await Swal.fire({
 
-    title: `¿Estás seguro de eliminar el ${elemento} ${titulo}?`,
+    title: `¿Estás seguro de esta accion sobre el ${elemento} ${titulo}?`,
     text: "¡Esta acción no puede revertirse!",
     icon: "warning",
     showCancelButton: true,

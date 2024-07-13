@@ -14,7 +14,7 @@ const ActualizarEmpleado = () => {
   const [listaDepartamentos, setListaDepartamentos] = useState([]);
   const [selectEmpleado, setSelectEmpleado] = useState([]);
   const [empleadoSeleccionado, setEmpleadoSeleccionado] = useState(null);
-  const [formData,setFormData] = useState({});
+
 
 
   useEffect(() => {
@@ -111,55 +111,57 @@ const ActualizarEmpleado = () => {
 
   const onSubmit = (data) => {
 
-    setFormData(data);
+    const updateAction = async () => {
 
-    alert(empleadoSeleccionado.dni)
+   
+      const dni = empleadoSeleccionado.dni.trim();
+
+  
+      const url = `https://sistema-gestion-de-empleados-backend-2024.vercel.app/empleados/${dni}`;
+  
+      const empleado_enviar = {
+        
+        id: empleadoSeleccionado.id,
+        nombre: data.nombre,
+        apellido: data.apellido,
+        dni: data.dni,
+        fecha_contratacion: data.fecha_contratacion,
+        salario: data.salario,
+        departamento_id: data.departamento_id,
+        pais: data.pais,
+        cargo: data.cargo,
+  
+      };
+
+     
+      try {
+  
+        const isTrue = await updateForm(url,empleado_enviar);
     
+        if (isTrue) {
+  
+          setEmpleadoSeleccionado(null);
+  
+        }
+  
+        return isTrue;
+  
+      } catch (error) {
+  
+        alertError(error.message || 'Error al actualizar el empleado');
+  
+        return false;
+  
+      }
+    };
+
+
+
     alertQuestion('Empleado: ', empleadoSeleccionado.nombre + " - " + "DNI: " + empleadoSeleccionado.dni, updateAction);
 
   };
  
-  const updateAction = async () => {
-
-    console.log(formData)
-   
-    const dni = empleadoSeleccionado.dni.trim();
-
-    const url = `http://localhost:3000/empleados/${dni}`;
-
-    const empleado = {
-
-      nombre: formData.nombre,
-      apellido: formData.apellido,
-      dni:formData.dni,
-      fecha_contratacion: formData.fecha_contratacion,
-      salario: formData.salario,
-      departamento_id: formData.departamento_id,
-      pais: formData.pais,
-      cargo: formData.cargo,
-    };
-
-    
-    try {
-
-      const isTrue = await updateForm(url,empleado);
   
-      if (isTrue) {
-
-        setEmpleadoSeleccionado(null);
-
-      }
-
-      return isTrue;
-
-    } catch (error) {
-
-      alertError(error.message || 'Error al eliminar el empleado');
-
-      return false;
-
-    }
-  };
 
   const formatFechaContratacion = (fecha) => {
 
@@ -291,7 +293,7 @@ const ActualizarEmpleado = () => {
                   <select
                     name="departamento"
                     className="formInput"
-                    {...register("departamento", { required: "Debe seleccionar un departamento" })}
+                    {...register("departamento_id", { required: "Debe seleccionar un departamento" })}
                     defaultValue={empleadoSeleccionado.departamento_id || ''}
                   >
                     <option value="">Seleccione un Departamento:</option>

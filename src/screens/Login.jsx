@@ -22,11 +22,10 @@ const LoginForm = () => {
 
         localStorage.setItem("token", response.token);
 
-console.log(response.token);
-
         setLoggedIn(true);
 
       } else {
+
         console.log("Error al iniciar sesión");
       }
     } catch (error) {

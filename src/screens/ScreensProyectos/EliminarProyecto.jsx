@@ -13,13 +13,15 @@ const EliminarProyecto = () => {
 
   useEffect(() => {
 
-    const fetchProyectos= async () => {
+    const fetchProyectos = async () => {
 
       const url = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/proyectos/';
 
       try {
-        
+
         const response = await getData(url);
+
+        console.log(response)
 
         if (response && response.data && response.data.data) {
 
@@ -27,18 +29,21 @@ const EliminarProyecto = () => {
 
         } else {
 
-          alertError('Error al cargar los Proyectosa');
+          alertError(response.error);
         }
       } catch (error) {
 
-        alertError('Error al cargar los Proyectos');
+        alertError(error);
       }
     };
 
     fetchProyectos();
+
   }, []);
 
   const cargarProyecto = async (id) => {
+
+    alert(id);
 
     const url = `https://sistema-gestion-de-empleados-backend-2024.vercel.app/proyectos/${id}`;
 
@@ -46,14 +51,15 @@ const EliminarProyecto = () => {
 
       const response = await getData(url);
 
-      if (response && response.data && response.data.data && response.data.data.length > 0) {
+      if (response && response.data.data.length > 0) {
 
         const proyecto = {
 
           id: response.data.data[0].id,
           nombre: response.data.data[0].nombre,
           fecha_inicio: response.data.data[0].fecha_inicio,
-          presupuesto: response.data.data[0].presupuesto,
+          presupuesto: response.data.data[0].presupuesto
+
 
         };
 
@@ -63,15 +69,16 @@ const EliminarProyecto = () => {
 
         setProyectoSeleccionado(null);
 
-        console.log('No se encontraron datos válidos para el Proyecto');
+        console.log('No se encontraron datos válidos para el proyecto');
 
       }
 
     } catch (error) {
 
-      alertError('Error al cargar el proyecto');
+      alertError(error);
     }
   };
+
 
   const deleteAction = async () => {
 
@@ -134,7 +141,7 @@ const EliminarProyecto = () => {
             ))}
           </select>
         </div>
-        {proyectoSeleccionado && <MostrarProyecto proyecto_id={proyectoSeleccionado.id} />}
+        {proyectoSeleccionado && <MostrarProyecto proyecto_id={proyectoSeleccionado.id}/>}
         <input type="submit" className="formSubmit" value="Eliminar Proyecto" />
       </div>
     </EliminarProyectoComponent>

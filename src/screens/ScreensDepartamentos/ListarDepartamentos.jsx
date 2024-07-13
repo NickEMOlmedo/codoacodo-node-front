@@ -5,7 +5,7 @@ import alertError from '../../components/alertError';
 
 const ListarDepartamentos = () => {
 
-    const [listaEmpleados, setListaEmpleados] = useState([]);
+    const [listaDepartamentos, setListaDepartamentos] = useState([]);
 
     //Fetch  para llenar el listado.
 
@@ -13,15 +13,15 @@ const ListarDepartamentos = () => {
     
         const fetchDepartamentos=  async () => {
     
-          const url_Empleados = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/departamentos';
+          const url_Departamentos = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/departamentos';
     
           try {
             
-            const response = await getData(url_Empleados);
+            const response = await getData(url_Departamentos);
     
             if (response && response.data && response.data.data) {
 
-              setListaEmpleados(response.data.data);
+              setListaDepartamentos(response.data.data);
     
             } else {
     
@@ -44,7 +44,7 @@ const ListarDepartamentos = () => {
 
       <h2>Listado de Departamentos:</h2>
       <ul>
-        {listaEmpleados.map((departamento) => (
+        {listaDepartamentos.map((departamento) => (
           <DepartamentoItem key={departamento.id}>
             <strong>{departamento.nombre}</strong>
             <p>Ubicacion: {departamento.ubicacion}</p>
