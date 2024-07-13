@@ -1,16 +1,17 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import responseLogin from '/src/components/responseLogin.js'
-import alertSuccess from '/src/components/alertSuccess'
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import responseRegister from '/src/components/responseRegister';
+import alertSuccessRegister from '/src/components/alertSuccessRegister';
+import alertError from '/src/components/alertError';
+import { Link, Navigate } from "react-router-dom";
 
 const RegisterForm = () => {
 
   const { register, formState: { errors }, handleSubmit, reset } = useForm();
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const onSubmitHandler = async (data) => {
-
-    console.log(data)
 
     const url = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/usuarios/register/';
 
@@ -21,21 +22,24 @@ const RegisterForm = () => {
 
     };
 
-    const response = await responseLogin(url,credentials);
+    try {
+      const response = await responseRegister(url, credentials);
 
-    console.log(response)
+      console.log(response);
 
-    if (response.status === 'success') {
+      if (response.success) {
+        
+        alertSuccessRegister();
+        setLoggedIn(true);
 
-      alertSuccess();
+      } else {
+        console.error("Error al registrar usuario:", response.message);
+        alertError(response.message || "Error al registrar usuario");
+      }
 
-      history.push('/screens/Home');
-
-      
-    } else {
-
-      console.error("Error al registrar usuario:", response.message);
-
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+      alertError(error.message || "Error en la solicitud");
     }
 
     setTimeout(() => {
@@ -43,52 +47,55 @@ const RegisterForm = () => {
     }, 2000);
   };
 
+  if (loggedIn) {
+    
+    return <Navigate to="/dashboard" />;
+  }
+
   return (
-
     <>
-    <RegisterFormComponent onSubmit={handleSubmit(onSubmitHandler)}>
-      <h2 className="formTitle">Registro</h2>
-      <p className="formParagraph">Por favor completa los siguientes campos:</p>
-      <div className="formContainer">
-        <div className="formGroup">
-          <label htmlFor="email" className="formLabel">Correo Electrónico:</label>
-          <input
-            type="email"
-            id="email"
-            className="formInput"
-            placeholder=" "
-            {...register("email", {
-              required: "El correo electrónico es obligatorio",
-              pattern: {
-                value: /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/,
-                message: "Formato de correo electrónico inválido"
-              }
-            })}
-          />
-          {errors.email && <p className="errorMessage">{errors.email.message}</p>}
-          <span className="formLine"></span>
+      <RegisterFormComponent onSubmit={handleSubmit(onSubmitHandler)}>
+        <h2 className="formTitle">Registro</h2>
+        <p className="formParagraph">Por favor completa los siguientes campos:</p>
+        <div className="formContainer">
+          <div className="formGroup">
+            <label htmlFor="email" className="formLabel">Correo Electrónico:</label>
+            <input
+              type="email"
+              id="email"
+              className="formInput"
+              placeholder=" "
+              {...register("email", {
+                required: "El correo electrónico es obligatorio",
+                pattern: {
+                  value: /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/,
+                  message: "Formato de correo electrónico inválido"
+                }
+              })}
+            />
+            {errors.email && <p className="errorMessage">{errors.email.message}</p>}
+            <span className="formLine"></span>
+          </div>
+          <div className="formGroup">
+            <label htmlFor="password" className="formLabel">Contraseña:</label>
+            <input
+              type="password"
+              id="password"
+              className="formInput"
+              placeholder=" "
+              {...register("password", {
+                required: "La contraseña es obligatoria",
+                minLength: { value: 6, message: "La contraseña debe tener al menos seis caracteres" }
+              })}
+            />
+            {errors.password && <p className="errorMessage">{errors.password.message}</p>}
+            <span className="formLine"></span>
+          </div>
+          <input type="submit" className="formSubmit" value="Registrar" />
         </div>
-        <div className="formGroup">
-          <label htmlFor="password" className="formLabel">Contraseña:</label>
-          <input
-            type="password"
-            id="password"
-            className="formInput"
-            placeholder=" "
-            {...register("password", {
-              required: "La contraseña es obligatoria",
-              minLength: { value: 6, message: "La contraseña debe tener al menos seis caracteres" }
-            })}
-          />
-          {errors.password && <p className="errorMessage">{errors.password.message}</p>}
-          <span className="formLine"></span>
-        </div>
-        <input type="submit" className="formSubmit" value="Registrar" />
-      </div>
-    </RegisterFormComponent>
+      </RegisterFormComponent>
 
-    <StyledLink to="/">Volver</StyledLink>
-
+      <StyledLink to="/">Volver</StyledLink>
     </>
   );
 };
