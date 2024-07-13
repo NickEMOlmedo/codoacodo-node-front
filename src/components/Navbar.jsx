@@ -20,7 +20,7 @@ const NavBar = () => {
         <img src={iconoasignaciones} className='img-links' alt='icono asignaciones' />
         <li><StyledLink to='/asignaciones'>Asignaciones</StyledLink></li>
       </ul>
-      <LinkHover className='logout'><img src={logosalida} alt='salida' /><Link className="linksalida" to="/"><h3>Exit</h3></Link></LinkHover>
+      <LinkHover className='logout'><img src={logosalida} alt='salida' /><Link className="linksalida" to="*"><h3>Exit</h3></Link></LinkHover>
     </NavBarComponent>
   );
 };
