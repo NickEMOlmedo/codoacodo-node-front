@@ -9,12 +9,12 @@ import { Link, Navigate } from "react-router-dom";
 const RegisterForm = () => {
 
   const { register, formState: { errors }, handleSubmit, reset } = useForm();
-  const [loggedIn, setLoggedIn] = useState(false);
+  
+  const [registerOk, setRegisterOk] = useState(false);
 
   const onSubmitHandler = async (data) => {
 
-    const url = 'https://sistema-gestion-de-empleados-backend-2024.vercel.app/usuarios/register/';
-
+    const url = "https://sistema-gestion-de-empleados-backend-2024.vercel.app/usuarios/register";
     const credentials = {
 
       username: data.email,
@@ -23,23 +23,24 @@ const RegisterForm = () => {
     };
 
     try {
+
       const response = await responseRegister(url, credentials);
 
-      console.log(response);
+      if (response.status === 'success') {
 
-      if (response.success) {
-        
+        setRegisterOk(true);
+
         alertSuccessRegister();
-        setLoggedIn(true);
 
       } else {
-        console.error("Error al registrar usuario:", response.message);
-        alertError(response.message || "Error al registrar usuario");
-      }
 
+        alertError('¡No se pudo registrar el usuario!')
+        
+      }
     } catch (error) {
-      console.error("Error en la solicitud:", error);
-      alertError(error.message || "Error en la solicitud");
+      
+      alertError(error)
+
     }
 
     setTimeout(() => {
@@ -47,19 +48,21 @@ const RegisterForm = () => {
     }, 2000);
   };
 
-  if (loggedIn) {
-    
-    return <Navigate to="/dashboard" />;
+  if (registerOk) {
+    return <Navigate to="/login" />;
   }
+
 
   return (
     <>
       <RegisterFormComponent onSubmit={handleSubmit(onSubmitHandler)}>
-        <h2 className="formTitle">Registro</h2>
-        <p className="formParagraph">Por favor completa los siguientes campos:</p>
+        <h2 className="formTitle">Registrarse</h2>
+        <p className="formParagraph">Por favor ingrese los datos:</p>
         <div className="formContainer">
           <div className="formGroup">
-            <label htmlFor="email" className="formLabel">Correo Electrónico:</label>
+            <label htmlFor="email" className="formLabel">
+              Correo Electrónico:
+            </label>
             <input
               type="email"
               id="email"
@@ -69,15 +72,19 @@ const RegisterForm = () => {
                 required: "El correo electrónico es obligatorio",
                 pattern: {
                   value: /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/,
-                  message: "Formato de correo electrónico inválido"
-                }
+                  message: "Formato de correo electrónico inválido",
+                },
               })}
             />
-            {errors.email && <p className="errorMessage">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="errorMessage">{errors.email.message}</p>
+            )}
             <span className="formLine"></span>
           </div>
           <div className="formGroup">
-            <label htmlFor="password" className="formLabel">Contraseña:</label>
+            <label htmlFor="password" className="formLabel">
+              Contraseña:
+            </label>
             <input
               type="password"
               id="password"
@@ -85,13 +92,22 @@ const RegisterForm = () => {
               placeholder=" "
               {...register("password", {
                 required: "La contraseña es obligatoria",
-                minLength: { value: 6, message: "La contraseña debe tener al menos seis caracteres" }
+                minLength: {
+                  value: 6,
+                  message: "La contraseña debe tener al menos seis caracteres",
+                },
               })}
             />
-            {errors.password && <p className="errorMessage">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="errorMessage">{errors.password.message}</p>
+            )}
             <span className="formLine"></span>
           </div>
-          <input type="submit" className="formSubmit" value="Registrar" />
+          <input
+            type="submit"
+            className="formSubmit"
+            value="Registrarse"
+          />
         </div>
       </RegisterFormComponent>
 
